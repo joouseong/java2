@@ -1,5 +1,103 @@
 # 주우성 202230236
 
+## 4월 3일(5주차)
+### 반복문
+* 자바 반복문 - for 문, while 문, do-whlie 문
+
+for 문
+* for 문을 이용하여 1부터 10까지 합 출력하기
+``` java
+public class ex3_1 {
+    public static void main(String[] args) {
+        int i, sum = 0;
+
+        for (i=1; i<=10; i++){
+            sum += i;
+            System.out.print(i);
+
+            if (i <= 9)
+                System.out.print("+");
+            else {
+                System.out.print("=");
+                System.out.print(sum);
+            }
+        }
+    }
+}
+
+결과: 1+2+3+4+5+6+7+8+9+10=55
+```
+
+while 문
+* while 문의 구성과 코드 사례: 조건식이 '참'인 동안 반복 실행
+* for 문과 while 문의 차이: for문은 반복되는 수가 정확히 지정됨 그러나 while 문은 횟수가 정해지지 않은 반복문을 위해 만들어짐(예: 끝났다는 신호가 왔을 때)
+* while 문을 이용하여 입력된 정수의 평균 구하기
+``` java
+import java.util.Scanner;
+public class ex3_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int count=0, n=0;
+        double sum=0;
+
+        System.out.println("정수를 입력하고 마지막에 0을 입력하세요.");
+        while((n=scanner.nextInt()) != 0){  //0이 입력되면 while 문 벗어남
+            sum=sum+n;
+            count++;
+        }
+        System.out.print("수의 개수는 " + count + "개이며 ");
+        System.out.println("평균은 " + sum/count + "입니다.");
+        scanner.close();
+    }
+}
+
+결과: 정수를 입력하고 마지막에 0을 입력하세요.
+10 30 -20 40 0
+수의 개수는 4개이며 평균은 15.0 입니다.
+```
+
+do-while 문
+* do-while 문의 구성과 코드 사례: 조건식이 '참'인 동안 반복 실행. 작업문은 한 번 반드시 실행
+* do-while 문을 이용하여 'a' 에서 'z' 가지 출력하기
+``` java
+public class ex3_3 {
+    public static void main(String[] args) {
+        char a = 'a';
+
+        do{
+            System.out.print(a); // 문자 출력
+            a = (char) (a+1);    // 알파벳의 경우 1을 더하면 다음 문자의 코드 값
+        } while (a <= 'z');
+    }
+}
+
+결과: abcdefghijklmnopqrstuvwxyz
+```
+
+중첩 반복
+* 반복문이 다른 반복문을 내포하는 구조
+* 2중 중첩을 이용한 구구단 출력하기
+``` java
+public class ex3_4 {
+    public static void main(String[] args) {
+        for (int i=1; i<10; i++){  // 단에 대한 반복
+            for (int j=1; j<10; j++) {  // 각 단의 곱셈
+                System.out.print(i + "*" + j + "=" + i*j);  // 구구셈 출력
+                System.out.print('\t');  // 하나씩 탭으로 띄기
+            }
+            System.out.println(); // 한 단이 끝나면 다음 줄로 커서 이동
+        }
+    }
+}
+
+결과: 
+```
+
+
+
+
+
+---
 ## 3월 27일(4주차)
 
 ### 자바의 특징
