@@ -76,22 +76,161 @@ public class ex3_3 {
 
 중첩 반복
 * 반복문이 다른 반복문을 내포하는 구조
+* for 문안에 for 문이나 while 문을 둘 수도 있고, while 문 안에 for, while, do-while 문을 둘 수 도 있음
+* 반복은 몇 번이고 중첩 가능하지만, 너무 많은 중첩 반복은 프로그램 구조를 복잡하게 하므로 2중 또는 3중 반복 정도가 적당함
 * 2중 중첩을 이용한 구구단 출력하기
 ``` java
 public class ex3_4 {
     public static void main(String[] args) {
         for (int i=1; i<10; i++){  // 단에 대한 반복
             for (int j=1; j<10; j++) {  // 각 단의 곱셈
-                System.out.print(i + "*" + j + "=" + i*j);  // 구구셈 출력
+                System.out.print(j + "*" + i + "=" + j*i);  // 구구셈 출력
                 System.out.print('\t');  // 하나씩 탭으로 띄기
             }
             System.out.println(); // 한 단이 끝나면 다음 줄로 커서 이동
         }
     }
 }
-
-결과: 
 ```
+
+continue 문
+* 반복문을 빠져 나가지 않고, 다음 반복으로 제어 변경
+* 반복문에서 continue; 문에 의한 분기한다
+* continue 문을 이용하여 양수 합 구하기
+``` java
+import java.util.Scanner;
+public class ex3_5 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("정수를 5개 입력하세요.");
+        int sum=0;
+        for(int i=0; i<5; i++){
+            int n=scanner.nextInt();
+            if(n<=0) continue;
+            else sum += n;
+        }
+        System.out.println("양수의 합은 " + sum);
+
+        scanner.close();
+    }
+}
+결과: 정수를 5개 입력하세요.
+5
+-2
+6
+10
+-4
+양수의 합은 21
+```
+break 문
+* 반복문 하나를 즉식 벗어날 때 사용. 하나의 반복문만 벗어남.
+* 중첩 반복의 경우 안쪽 반복문의 break 문이 실행되면 안쪽 반복문만 벗어남.
+* break 문을 이용하여 while 문 벗어나기
+``` java
+import java.util.Scanner;
+public class ex3_6 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("exit을 입력하면 종료됩니다");
+        while(true) {
+            System.out.print(">>");
+            String text = scanner.nextLine();
+            if(text.equals("exit"))
+                break;
+        }
+        System.out.println("종료합니다...");
+
+        scanner.close();
+    }
+}
+결과: exit을 입력하면 종료됩니다.
+>> edit
+>> exit
+종료합니다...
+```
+자바 배열(array)
+* 인덱스와 인덱스에 대응하는 데이터들로 이루어진 자료 구조로 한 번에 많은 메모리 공간 선언
+* 같은 타입의 데이터들이 순차적으로 저장되는 공간으로 인덱스를 이용하여 원소 데이터 접근
+* 반복문을 이용하여 처리하기에 적합한 자료구조
+* 배열 인덱스: 0 부터 시작
+
+배열 선언과 생성
+1. 배열에 대한 레퍼런스 변수 선언
+  - 배열 타입-배열에 대한 레퍼런스 변수-배열 선언(int intArray [];)
+2. 배열 생성
+  - 배열에 대한 레퍼런스 변수=배열생성-타입-원소 개수(intArray = new int [5];)
+
+배열 선언 및 생성 디테일
+* 배열은 선언과 생성의 두 단계 필요: 선언과 동시에 생성할 수 있음
+* 배열 선언: 배열의 이름 선언(배열 레퍼런스 변수 선언)
+  - int intArray[]; 또는 int[] intArray;
+* 배열 생성: 배열 공간 할당 받는 과정
+  - intArray = new int[5]; 또는 int intArray[] = new int[5];
+* 배열 초기화: 배열 생성과 값 초기화
+  - int intArray[] = {4,3,2,1,0}; // 5개의 정수 배열 생성 및 값 초기화
+  - double doubleArray[] = {0.1, 0.2, 0.3, 0.4}; // 5개의 실ㅅ수 배열 생성 및 값 초기화
+
+배열 인덱스와 배열 원소 접근
+* 배열의 인덱스는 0부터, 크기 1부터
+* 인덱스로 음수 사용 불가
+* 반드시 배열 생성 후 접근
+
+레퍼런스 치환과 배열 공유
+* 레퍼런스 치환으로 두 레퍼런스가 하나의 배열 공유
+  - int intArray[] = new int[5];
+  - int myArray[] = intArray;
+
+* 양수 5개를 입력받아 배열에 저장하고 제일 큰 수를 출력
+``` java
+import java.util.Scanner;
+public class ex3_7 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int intArray[];
+        intArray = new int[5];
+        // 선언과 생성을 한 줄에 할 수 있다
+        // int intArray[] = new int[5];
+
+        int max = 0; //현재 가장 큰 수
+        System.out.println("양수 5개를 입력하세요.");
+
+        for (int i=0; i<5; i++) {
+            intArray[i] = scanner.nextInt();
+            if(intArray[i] > max)
+                max = intArray[i];
+        }
+        System.out.print("가장 큰 수는 " + max + "입니다.");
+
+        scanner.close();
+    }
+}
+결과: 양수 5개를 입력하세요.
+1 39 78 100 99
+가장 큰 수는 100입니다.
+```
+
+배열의 크기, length 필드
+* 자바의 배열은 객체로 처리
+* 배열의 크기는 배열 객체의 length 필드에 저장
+* length 필드를 이용하여 배열의 모든 값을 출력하는 사례
+  - for(int i=0; i<intArray.length; i++>) //intArray 배열 크기만큼 루프를 돈다
+  - System.out.println(intArray[i];)
+* 배열의 length 필드를 이용하여 배열 크기만큼 정수를 입력 받고 평균을 출력
+
+함수 호출 시 배열 전달 비교: C/C++ vs 자바
+* 자바가 C/C++에 비해 배열을 다루기 10배 편한 구조
+* C/C++의 경우 배열과 크기를 각각 전달 받음
+* 자바의 경우 배열만 전달받음
+
+배열과 for-each 문
+* for-each 문: 배열이나 나열(enumeration)의 원소를 순차 접근하는데 유용한 for 문
+
+
+
+
 
 
 
