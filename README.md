@@ -92,7 +92,7 @@ public class ex3_4 {
     }
 }
 ```
-
+### continue문과 break문
 continue 문
 * 반복문을 빠져 나가지 않고, 다음 반복으로 제어 변경
 * 반복문에서 continue; 문에 의한 분기한다
@@ -150,6 +150,8 @@ public class ex3_6 {
 >> exit
 종료합니다...
 ```
+
+### 자바의 배열
 자바 배열(array)
 * 인덱스와 인덱스에 대응하는 데이터들로 이루어진 자료 구조로 한 번에 많은 메모리 공간 선언
 * 같은 타입의 데이터들이 순차적으로 저장되는 공간으로 인덱스를 이용하여 원소 데이터 접근
@@ -228,13 +230,70 @@ public class ex3_7 {
 배열과 for-each 문
 * for-each 문: 배열이나 나열(enumeration)의 원소를 순차 접근하는데 유용한 for 문
 
+### 다차원 배열
+2차원 배열
+* 2차원 배열 선언
+  - int intArray[][]; 또는 int[][] intArray;
+* 2차원 배열 생성
+  - intArray = new int[2][5];
+  - int intAray[] = new int[2][5]; //배열 선언과 생성 동시
+* 2차원 배열의 length 필드
+  - i.length -> 2차원 배열의 행의 개수로, 2
+  - i[n].length -> n번째 행의 열의 개수
+  - i[1].length -> 1번째 행의 열의 개수, 5
 
+2차원 배열의 초기화
+* 배열의 선언과 동시에 초기화
+  - int intArray[][] = {{0,1,2}, {3,4,5}, {6,7,8}};
 
+### 메소드의 배열 리턴
+* 배열의 레퍼런스만 리턴되며, 배열 전체가 리턴되는 것이 아님
+* 메소드의 리턴 타입
+  - 리턴하는 배열 타입과 리턴 받는 배열 타입 일치
+  - 리턴 타입에 배열의 크기를지정하지 않음
 
+### 자바의 예외 처리
+* 예외(Exception): 실행 중 오동작이나 결과에 악영향을 미치는 예상치 못한 상황 발생 -> 자바에서는 실행 중 발생하는 에러를 예외로 처리
+* 실행 중 예외가 발생하면: 자바 플랫폼은 응용프로그램이 예외를 처리하도록 호출 -> 응용프로그램이 예외를 처리하지 않으면 프로그램 강제 종료 시킴
+* [예외 발생 경우]
+  - 정수를 0으로 나누는 경우
+  - 배열의 크기보다 큰 인덱스로 배열의 원소를 접근하는 경우
+  - 정수를 읽는 코드가 실행되고 있을 때 사용자가 문자를 입력한 경우
+* 0으로 나누기 시 예외 발생으로 강제 종료되는 경우
+``` java
+import java.util.Scanner;
+public class ex3_12 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int dividend; //나뉨수
+        int divisor; //나눔수
 
+        System.out.print("나뉨수를 입력하시오: ");
+        dividend = scanner.nextInt(); //나뉨수 입력
+        System.out.print("나눗수를 입력하시오: ");
+        divisor = scanner.nextInt(); //나눔수 입력
+        System.out.println(dividend+"를 " + divisor + "로 나누면 몫은 " + dividend/divisor + "입니다.");
+    scanner.close();
+    }
+}
+결과:나뉨수를 입력하시오: 100
+나눗수를 입력하시오: 0
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+        at ex3_12.main(ex3_12.java:12)
+```
 
-
-
+자바의 예외 처리, try-catch-fianlly 문
+* 예외 처리: 발생한 예외에 대해 개발자가 작성한 프로그램 코드에서 대응하는 것
+* try-catch-finally문 사용. finally 블록은 생략 가능
+  - try {
+        예외가 발생할 가능성이 있는 실행문
+  }
+  - catch(처리할 예외 타입 선언){
+      예외 처리문
+  }
+  - finally {
+        예외 발생 여부와 상관없이 무조건 실행되는 문장
+  }
 
 ---
 ## 3월 27일(4주차)
