@@ -110,10 +110,102 @@ public class ex4_1 {
 결과: 자바피자의 면적은 314.0
 자바도넛의 면적은 12.56
 ```
+1. 레퍼런스 변수 선언 
+2. 객체 생성, new 연산자 이용 
+3. 객체 멤버 접근, 점(.) 연산자 이용 
 
+``` java
+import java.util.Scanner;
 
+class Rectangle {
+    int width;
+    int height;
+    public int getArea() {
+        return width*height;
+    }
+}
 
+public class ex4_2 {
+    public static void main(String[] args) {
+        Rectangle rect = new Rectangle();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(">> ");
+        rect.width = scanner.nextInt();
+        rect.height = scanner.nextInt();
+        System.out.println("사각형의 면적은 " + rect.getArea());
+        scanner.close();
+    }
+}
+결과: >> 4 5
+사각형의 면적은 20
+```
 
+생성자 개념과 목적
+* 생성자
+  - 객체가 생성될 때 초기화 목적으로 실행되는 메소드
+  - 객체가 생성되는 순간에 자동 호출
+``` java
+public class ex4_3 {
+    int radius;
+    String name;
+
+    public ex4_3(){ //매개 변수 없는 생성자
+        radius = 1; name = ""; // radius의 초기값은 1
+    }
+
+    public ex4_3(int r, String n) {
+        radius = r; name = n;
+    }
+
+    public double getArea() {
+        return 3.14*radius*radius;
+    }
+
+    public static void main(String[] args) {
+        ex4_3 pizza = new ex4_3(10, "자바피자"); // ex4_3 객체 생성, 반지름 10
+        double area = pizza.getArea();
+        System.out.println(pizza.name + "의 면적은 " + area);
+
+        ex4_3 donut = new ex4_3(); // ex4_3 객체 생성, 반지름 1
+        donut.name = "도넛피자";
+        area = donut.getArea();
+        System.out.println(donut.name + "의 면적은 " + area);
+    }
+}
+결과: 자바피자의 면적은 314.0
+도넛피자의 면적은 3.14
+```
+생성자의 특징
+* 생성자 이름은 클래스 이름과 동일
+* 생성자는 여러 개 작성 가능(생성자 중복)
+* 생성자는 객체 생성시 한 번만 호출
+  - 자바에서 객체 생성은 반드시 new 연산자로 함
+* 생성자의 목적은 객체 생성 시 초기화
+* 생성자는 리턴 타입을 지정할 수 없음
+
+``` java
+public class ex4_4 {
+    String title;
+    String author;
+    public ex4_4(String t) { // 생성자
+        title = t;
+        author = "작자미상";
+    }
+    public ex4_4(String t, String a) { // 생성자
+        title = t;
+        author = a;
+    }
+
+    public static void main(String[] args) {
+        ex4_4 littlePrince = new ex4_4("어린왕자", "생텍쥐페리"); // 생성자 ex4_4(String t, String a) 호출
+        ex4_4 loveStory = new ex4_4("춘향전"); // 생성자 ex4_4(String t) 호출
+        System.out.println(littlePrince.title + " " + littlePrince.author);
+        System.out.println(loveStory.title + " " + loveStory.author);
+    }
+}
+결과: 어린왕자 생텍쥐페리
+춘향전 작자미상
+```
 
 ---
 ## 4월 3일(5주차)
