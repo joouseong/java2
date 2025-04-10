@@ -1,5 +1,66 @@
 # 주우성 202230236
 
+## 4월 10일(6주차)
+### 클래스와 객체
+세상 모든 것이 객체다
+* 실 세계 객체의 특징
+  - 객체마다 고유한 특성(state)와 행동(behavior)를 가짐
+  - 다른 객체들과 정보를 주고 받는 등, 상호작용 하면서 살아감
+* 컴퓨터 프로그램에서 객체 사례
+  - 테트리스 게임의 각 블록들
+  - 한글 프로그램의 메뉴나 버튼들
+
+자바의 객체 지향 특성: 캡슐화
+* 캡슐화: 객체를 캡슐로 싸서 내부를 볼 수 없게 하는 것
+  - 객체의 가장 본질적인 특징
+  - 외부의 접근으로부터 객체 보호
+* 자바의 캡슐화
+  - 클래스(class): 객체 모양을 선언한 틀(캡슐화하는 틀)
+  - 객체: 생성된 실체(instance): 클래스 내에 메소드와 필드 구현
+
+자바의 객체 지향 특성: 상속
+* 상속
+  - 상위 객체의 속성이 하위 객체에 물려 줌
+  - 하위 객체가 상위 객체의 속성을 모두 가지는 관계
+* 실세계의 상속 사례
+  - 나무는 식물의 속성과 생물의 속성을 모두 가짐
+  - 사람은 생물의 속성은 가지지만 식물의 속성은 가지고 있지 않음
+* 자바의 상속
+  - 상위 클래스의 멤버를 하위 클래스가 물려받음
+  - 상위 클래스: 슈퍼 클래스
+  - 하위 클래스: 서브 클래스, 슈퍼 클래스 코드의 재사용, 새로운 특성 추가 가능
+
+자바의 객체 지향 특성: 다형성
+* 다형성
+  - 같은 이름의 메소드가 클래스 혹은 객체에 따라 다르게 구현되는 것
+* 다형성 사례
+  - 메소드 오버로딩: 한 클래스 내에서 같은 이름이지만 다르게 작동하는 여러 메소드
+  - 메소드 오버라이딩: 슈퍼 클래스의 메소드를 동일한 이름으로 서브 클래스마다 다르게 구현
+
+객체 지향 언어의 목적
+1. 소프트웨어의 생산성 향상
+  * 컴퓨터 산업 발전에 따라 소프트웨어의 생명 주기(life cycle) 단축
+    - 소프트웨어를 빠른 속도로 생산할 필요성 증대
+
+  * 객체 지향 언어
+    - 상속, 다형성, 객체, 캡슐화 등 소프트웨어 재사용을 위한 여러 장치 내장
+    - 소프트웨어 재사용과 부분 수정 빠름
+    - 소프트웨어를 다시 만드는 부담 대폭 줄임
+    - 소프트웨어 생산성 향상
+2. 실세계에 대한 쉬운 모델링
+  * 초기 프로그래밍
+    - 수학 계산/통계 처리를 하는 등 처리 과정, 계산 절차 중요
+  * 현대 프로그래밍
+    - 컴퓨터가 산업 전반에 활용
+    - 실세계에서 발생하는 일을 프로그래밍
+    - 실세계에서는 절차나 과정보다 물체(객체)들의 상호 작용으로 묘사하는 것이 용이
+  * 객체 지향 언어
+    - 실세계의 일을 보다 쉽게 프로그래밍하기 위한 객체 중심적 언어
+
+
+
+
+---
 ## 4월 3일(5주차)
 ### 반복문
 * 자바 반복문 - for 문, while 문, do-whlie 문
@@ -294,6 +355,67 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
   - finally {
         예외 발생 여부와 상관없이 무조건 실행되는 문장
   }
+
+``` java
+import java.util.Scanner;
+public class ex3_13 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int dividend;
+        int divisor;
+
+        System.out.print("나뉨수를 입력하시오:");
+        dividend = scanner.nextInt();
+        System.out.print("나눗수를 입력하시오:");
+        divisor = scanner.nextInt();
+        try{
+            System.out.println(dividend + "를" + divisor + "로 나누면 몫은 " + dividend/divisor + "입니다.");
+        }
+        catch(ArithmeticException e){
+            System.out.println("0으로 나눌 수 없습니다!");
+        }
+        finally {
+            scanner.close();
+        }
+        
+
+
+    }
+}
+결과: 나뉨수를 입력하시오:100
+나눗수를 입력하시오:0
+0으로 나눌 수 없습니다!
+```
+``` java
+import java.util.Scanner;
+import java.util.InputMismatchException;
+public class ex3_14 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("정수를 3개 입력하세요:");
+        int sum = 0, n = 0;
+        for(int i=0; i<33; i++){
+            System.out.print(i+">>");
+            try{
+                n = scanner.nextInt();
+            }
+            catch(InputMismatchException e) {
+                System.out.println("정수가 아닙니다. 다시 입력하세요!");
+                scanner.next();
+                i--;
+                continue;
+            }
+            sum += n;
+        }
+        System.out.println("합은 " + sum);
+        scanner.close();
+    }
+}
+
+
+```
+
+
 
 ---
 ## 3월 27일(4주차)
