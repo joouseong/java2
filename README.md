@@ -1,5 +1,168 @@
 # 주우성 202230236
 
+## 4월 17일(7주차)
+### 클래스와 객체
+생성자의 종류
+* 기본 생성자(default constructor): 매개 변수 없고, 아무 작업 없이 단순 리턴하는 생성자
+``` java
+clas Circle {
+    public Circle() {} // 기본 생성자, 매개 변수 없고, 아무 일 없이 단순 리턴
+}
+```
+* 기본 생성자가 자동 생성되는 경우
+  - 클래스에 생성자가 하나도 선언되어 있지 않을 때
+  - 컴파일러에 의해 기본 생성자 자동 생성
+* 기본 생성자가 자동 생성되지 않는 경우
+  - 클래스에 생성자가 선언되어 있는 경우
+  - 컴파일러는 기본 생성자를 자동 생성해 주지 않는다
+
+this 레퍼런스
+* 객체 자신에 대한 레퍼런스
+* 컴파일러에 의해 자동 관리, 개발자는 사용하기만 하면 됨
+* this.멤버 형태로 멤버를 접근할 때 사용
+
+this()로 다른 생성자 호출
+* 같은 클래스의 다른 생성자 호출
+* 생성자 내에서만 사용 가능
+* 생성자 코드의 제일 앞에 있어야 함
+* this() 사용 실패 사례
+``` java
+public Book() {
+    System.out.println("생성자 호출됨");
+    this("",""); //컴파일 오류. 이 문장이 생성자의 첫 번째 문장이 아니기 때문
+}
+```
+
+객체 배열
+* 객체에 대한 레퍼런스 배열
+* 자바의 객체 배열 만들기 3단계
+  1. 배열 레퍼런스 변수 선언
+  2. 레퍼런스 배열 생성
+  3. 배열의 각 원소 객체 생성
+
+``` java
+Circle [] c; //Circle 배열에 대한 레퍼런스 변수 c 선언
+c = new Circle[5]; // 레퍼런스 배열 생성
+
+for(int i=0; i <c.length; i++) // c.length는 배열 c의 크기로서 5
+  c[i] = new Circle(i); //각 원소 객체 생성
+
+for(int i=0; i<c.length; i++) // 모든 객체의 면적 출력
+  System.out.print((int)(c[i].getArea()) + " "); // 배열의 원소 객체 사용
+```
+
+Circle 배열 만들기
+* 반지름이 0~4인 Circle 객체 5개를 가지느 배열을 생성, 배열에 있는 모든 Circle 객체의 면적을 출력
+``` java
+class Circle{
+    int radius;
+    public Circle(int radius){
+        this.radius = radius;
+    }
+    public double getArea(){
+        return 3.14 * radius * radius;
+    }
+}
+
+public class ex4_6 {
+    public static void main(String[] args) {
+        Circle [] c; // Circle 배열에 대한 레퍼런스 c 선언
+        c = new Circle[5]; // 5개의 레퍼런스 배열 생성
+
+        for(int i=0; i<c.length; i++) //배열의 개수 만큼
+            c[i] = new Circle(i); // i 번째 원소 객체 생성
+        
+        for(int i=0; i<c.length; i++) // 배열의 모든 Circle 객체의 면적 출력
+            System.out.print((int)(c[i].getArea()) + " ");
+    }    
+}
+결과: 0 3 12 28 50 
+```
+
+객체 배열 만들기 연습
+* 예제 4-4를 활용하여 2개짜리 book(ex4_4) 객체 배열을 만들고, 사용자로부터 책의 제목과 저자를 입력받아 배열을 완성하라
+``` java
+import java.util.Scanner;
+
+class ex4_4{
+    String title, author;
+    public ex4_4(String title, String author){ // 생성자
+        this.title = title;
+        this.author = author;
+    }
+}
+
+public class ex4_7 {
+    public static void main(String[] args) {
+        ex4_4 [] ex4_4 = new ex4_4[2];
+
+        Scanner scanner = new Scanner(System.in);
+        for(int i=0; i<ex4_4.length; i++){ // ex4_4.length = 2
+            System.out.print("제목>>");
+            String title = scanner.nextLine();
+            System.out.print("저자>>");
+            String author = scanner.nextLine();
+            ex4_4[i] = new ex4_4(title, author); //배열 원소 객체 생성
+        }
+
+        for(int i=0; i<ex4_4.length; i++)
+            System.out.print("(" + ex4_4[i].title + ", " + ex4_4[i].author + ")");
+
+        scanner.close();
+
+    }
+}
+결과: 제목>>사랑의 기술
+저자>>에리히 프롬
+제목>>시간의 역사
+저자>>스티븐 호킹
+(사랑의 기술, 에리히 프롬)(시간의 역사, 스티븐 호킹)
+```
+
+메소드 
+* 메소드는 C/C++의 함수와 동일
+* 자바의 모든 메소드는 반드시 클래스 안에 있어야 함(캡슐화 원칙)
+* 메소드 형식
+``` java
+public int getSum(int i, int j){
+  int sum;
+  sum = i + j;
+  return sum;
+}
+
+에서 
+public = 접근 지정자
+int = 리턴 타입
+getSum = 메소드 이름
+(int i, int j) = 메소드 인자들
+int sum;
+  sum = i + j; = 메소드 코드
+  return sum;
+
+```
+* 접근 지정자: 다른 클래스에서 메소드를 접근할 수 있는지 여부 선언
+  - public, private, protected, 디폴트(접근 지정자 생략)
+* 리턴 타입: 메소드가 리턴하는 값의 데이터 타입
+
+인자 전달 - 기본 타입의 값이 전달되는 경우
+* 매개 변수가 byte, int, double 등 기본 타입으로 선언되었을 때
+  - 호출자가 건네는 값이 매개 변수에 복사되어 전달, 실 인자 값은 변경되지 않음
+
+인자 전달 - 객체가 전달되는 경우
+* 객체의 레퍼런스만 전달: 매개 변수가 실 인자 객체 공유
+
+인지 전달 - 배열이 전달되는 경우
+* 배열 레퍼런스만 매개 변수에 전달: 배열 통채로 전달되지 않음
+* 객체가 전달되는 경우와 동일: 매개 변수가 실 인자의 배열 공유
+
+인자로 배열이 전달되는 예
+* char[] 배열을 전달받아 배열 속의 공백(' ')문자를 ','로 대치하는 메소드를 작성
+
+
+
+
+
+---
 ## 4월 10일(6주차)
 ### 클래스와 객체
 세상 모든 것이 객체다
