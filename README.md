@@ -206,6 +206,105 @@ This,is,a,pencil.
 * 가비지 컬렉션: JVM의 가비지 컬렉터가 자동으로 가비지 수집, 반환
 
 가비지 컬렉션(garbage collection)
+* JVM이 가비지 자동 회수
+  - 가용 메모리 공간이 일정 이하로 부족해질 때
+  - 가비지를 수거하여 가용 메모리 공간으로 확보
+* 가비지 컬렉터(garbage collector)에 의해 자동 수행
+* 강제 가비지 컬렉션 강제 수행: System 또는 Runtime 객체의 gc() 메소드 호출
+``` java
+System.gc(); // 가비지 컬렉션 작동 요청
+```
+* 이 코드는 JVM에 강력한 가비지 컬렉션 요청
+* 그러나 JVM이 가비지 컬렉션 시점을 전적으로 판단
+
+자바의 패키지 개념
+* 패키지
+* 상호 관련 있는 클래스 파일(컴파일된 .class)을 저장하여 관리하는 디렉터리
+* 자바 응용프로그램은 하나 이상의 패키지로 구성
+
+접근 지정자
+* 자바의 접근 지정자 4가지: private, protected, public, 디폴트(접근 지정자 생략)
+* 접근 지정자의 목적
+  - 클래스나 일부 멤버를  공개하여 다른 클래스에서 접근하도록 허용
+  - 객체 지향 언어의 캡슐화 정책은 멤버를 보호하는 것
+    
+    -> 접근 지정은 캡슐화에 묶인 보호를 일부 해제할 목적으로 사용
+* 접근 지정자에 따른 클래스나 멤버의 공개 범위
+  - private: 외부로부터 완벽 차단
+  - 디폴트: 동일 패키지에 허용
+  - protected: 동일 패키지와 자식 클래스에 허용
+  - public: 모든 클래스에 허용
+
+클래스 접근 지정
+* 다른 클래스에서 사용하도록 허용할 지 지정
+* public 클래스: 다른 모든 클래스에게 접근 허용
+* 디폴트 클래스(접근 지정자 생략): 같은 패키지의 클래스에만 접근 허용
+``` java
+public class World{ // public 클래스
+
+}
+class Local{ // 디폴트 클래스
+
+}
+```
+
+멤버 접근 지정
+* public 멤버: 패키지에 관계없이 모든 클래스에게 접근 허용
+* private 멤버: 동일 클래스 내에만 접근 허용. 상속 받은 서브 클래스에서 접근 불가
+* protected 멤버:
+  - 같은 패키지 내의 다른 모든 클래스에게 접근 허용
+  - 상속받은 서브 클래스는 다른 패키지에 있어도 접근 가능
+* 디폴트(default) 멤버: 같은 패키지 내의 다른 클래스에게 접근 허용
+
+static 멤버
+* static 멤버 선언
+```java
+class StaticSample{
+    int n;; // non-static 필드
+    void g() {...} // non-static 메소드
+    static int m; // static 필드
+    static void f() {...} // static 메소드
+}
+```
+* 객체 생성과 non-static 멤버의 생성
+  - : non-static 멤버는 객체가 생성될 때, 객체마다 생긴다
+* 객체마다 n, g()의 non-static 멤버들이 생긴다
+* non-static 모든 객체에 멤버 생성, static은 멤버 공유
+
+static 멤버의 생성
+* static 멤버는 클래스당 하나만 생성
+* 객체들에 의해 공유됨
+
+static 멤버 사용
+* 클래스 이름으로 접근 가능
+``` java
+StaticSample.m = 3; // 클래스 이름으로 static 필드 접근
+StaticSample.f();   // 클래스 이름으로 static 메소드 호출
+```
+* 객체의 멤버로 접근 가능
+``` java
+StaticSample b1 = new StaticSample();
+
+b1.m = 3; // 객체 이름으로 static 필드 접근
+b1.f();   // 객체 이름으로 static 메소드 호출
+```
+* non-static 멤버는 클래스 이름으로 접근 안 됨
+``` java
+StaticSample.n=5; // n은 non-static이므로 컴파일 오류
+StaticSample.g(); // g()는 non-static이므로 컴파일 오류
+```
+* non-static은 모든 객체에 멤버 생성, static은 멤버 공유
+
+static의 활용
+* 전역 변수와 전역 함수를 만들 때 활용
+* 공유 멤버를 만들 떄: static으로 선언한 멤버는 클래스의 객체들 사이에 공유
+
+static 메소드의 제약 조건
+* static 메소드는 오직 static 멤버만 접근 가능
+  - 객체가 생성되지 않은 상황에서도 static 메소드는 실행될 수 있기 때문에, non-static 멤버 활용 불가
+  - non-static 메소드는 static 멤버 사용 가능
+
+
 
 
 
