@@ -157,6 +157,56 @@ int sum;
 
 인자로 배열이 전달되는 예
 * char[] 배열을 전달받아 배열 속의 공백(' ')문자를 ','로 대치하는 메소드를 작성
+``` java
+public class ex4_8 {
+    static void replaceSpace(char a[]){ //배열 a의 공백문자를 ','로 변경
+        for(int i=0; i<a.length; i++)
+            if(a[i] == ' ') // 공백 문자를 ','로 변경
+                a[i] = ',';
+    }
+
+    static void printCharArray(char a[]){ //배열 a의 문자들을 화면에 출력
+        for(int i=0; i<a.length; i++)
+            System.out.print(a[i]); //배열 원소 문자 출력
+        System.out.println(); // 배열 워소 모두 출력 후 바꿈
+    }
+
+    public static void main(String[] args) {
+        char c[] = {'T','h','i','s',' ','i','s',' ','a',' ','p','e','n','c','i','l','.'};
+        printCharArray(c); // 원래 배열 원소 출력
+        replaceSpace(c); // 공백 문자 바꾸기
+        printCharArray(c); // 수정된 배열 원소 출력
+    }
+
+}
+결과:This is a pencil.
+This,is,a,pencil.
+```
+
+메소드 오버로딩(Overloading)
+* 한 클래스 내에서 두 개 이상의 이름이 같은 메소드 작성
+  - 메소드 이름이 동일해야 함
+  - 매개 변수의 개수 혹은 타입이 달라야 함
+  - 리턴 타입은 오버로딩과 관련 없음
+
+객체 치환 시 주의할 점
+* 객체 치환은 객체 복사가 아니며, 레퍼런스의 복사이다
+
+객체 소멸
+* new로 할당 받은 객체와 메모리를 JVM으로 되돌려 주는 행위
+* 자바는 객체 소멸 연산자 없음
+* 객체 소멸은 JVM의 고유한 역할
+* C/C++에서는 할당 받은 객체를 개발자가 프로그램 내에서 삭제해야 함
+* C/C++의 프로그램 작성을 어렵게 만드는 요인
+* 자바에서는 사용하지 않는 객체나 배열을 돌려주는 코딩 책임으로부터 개발자 해방
+
+가비지
+* 가비지는 레퍼런스가 하나도 없는 객체
+* 더이상 접근할 수 없어 사용할 수 없게 된 메모리
+* 가비지 컬렉션: JVM의 가비지 컬렉터가 자동으로 가비지 수집, 반환
+
+가비지 컬렉션(garbage collection)
+
 
 
 
