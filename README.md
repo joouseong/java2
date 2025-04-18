@@ -120,6 +120,78 @@ protected 멤버
 * 슈퍼 클래스의 protected 멤버에 대한 접근: 같은 패키지의 모든 클래스에게 허용
 * 상속되는 서브 클래스가 같은 패키지든 다른 패키지든 상관 없이 허용
 
+서브 클래스/슈퍼 클래스의 생성자 호출과 실행
+* 서브 클래스의 객체가 생성될 때: 슈퍼클래스 생성자와 서브 클래스 생성자 모두 실행
+* 호출 순서: 서브 클래스의 생성자 먼저 호출 -> 슈퍼 클래스 생성자 호출
+* 실행 순서: 슈퍼 클래스의 생성자가 먼저 실행 -> 서브 클래스의 생성자 실행
+
+서브 클래스에서 슈퍼 클래스 생성자 선택
+* 슈퍼 클래스와 서브 클래스: 각각 여러 개의 생성자 작성 가능
+* 서브 클래스의 객체가 생성될 때: 슈퍼 클래스 생성자 1개와 서브 클래스 생성자 1개가 실행
+* 서브 클래스의 생성자와 슈퍼 클래스의 생성자가 결정되는 방식
+1. 개발자의 병시적 선택
+  - 서브 클래스 개발자가 슈퍼 클래스의 생성자 명시적 선택
+  - super() 키워드를 이용하여 선택
+2. 컴파일러가 기본 생성자 선택
+  - 서브 클래스 개발자가 슈퍼 클래스의 생성자를 선택하지 않는 경우
+  - 컴파일러가 자동으로 슈퍼 클래스의 개본 생성자 선택
+
+컴파일러에 의해 슈퍼 클래스의 기본 생성자가 묵시적 선택
+* 개발자가 서브 클래스의 생성자에 대해 슈퍼 클래스의 생성자를 명시적으로 선택하지 않은 경우
+
+서브 클래스의 매개 변수를 가진 생성자에 대해서도 슈퍼 클래스의 기본 생성자가 자동 선택
+* 개발자가 서브 클래스의 생성자에 대해 슈퍼 클래스의 생성자를 명시적으로 선택하지 않은 경우
+
+super()로 슈퍼 클래스의 생성자 명시적 선택
+* super(): 서브 클래스에서 명시적으로 슈퍼 클래스의 생성자 선택 호출
+* 사용방식
+  - super(parameter);
+  - 인자를 이용하여 슈퍼 클래스의 적당한 생성자 호출
+  - 반드시 서브 클래스 생성자 코드의 제일 첫 라인에 와야 함
+
+super()를 활용한 ColorPoint 작성
+``` java
+class Point{
+    private int x, y; //한 점을 구성하는 x, y 좌표
+    public Point(){
+        this.x = this.y = 0;
+    }
+    public Point(int x, int y){
+        this.x = x; this.y = y;
+    }
+    public void showPoint() {// 점의 좌표 출력
+        System.out.println("(" + x + "," + y + ")");
+    }
+}
+
+class ColorPoint extends Point{ // Point를 상속받은 ColorPoint 선언
+    private String color; // 점의 색
+    public ColorPoint(int x, int y, String color){
+        super(x, y); // Point의 생성자 Point(x, y) 호출
+        this.color = color;
+    }
+    public void showColorPoint() { // 컬러 점의 좌표 출력
+        System.out.print(color);
+        showPoint(); // Point 클래스의 showPoint() 호출
+    }
+}
+
+public class ex5_2 {
+    public static void main(String[] args) {
+        ColorPoint cp = new ColorPoint(5, 6, "blue");
+        cp.showColorPoint();
+    }
+}
+결과: blue(5,6)
+```
+
+업캐스팅(upcasting) 개념
+* 하위 클래스의 레퍼런스는 상위 클래스를 가리킬 수 없지만, 상위 클래스의 레퍼런스는 하위 클래스를 가리킬수 있다
+* 생물이 들어가는 밖스에 사람이나 코끼리를 넣어도 무방
+* 사람이나 코끼리 모두 생물을 상속받았기 때문
+* 업캐스팅(upcasting)이란?
+  - 서브 클래스의 레퍼런스를 슈퍼 클래스 레퍼런스에 대입
+  - 슈퍼 클래스 레퍼런스로 서브 클래스 객체를 가리키게 되는 현상
 
 
 
