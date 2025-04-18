@@ -1,5 +1,133 @@
 # 주우성 202230236
 
+## 4월 18일(8주차)
+### 클래스와 객체
+static 메소드의 제약 조건 2
+* static 메소드에서는 this 사용 불가
+* static 메소드는 객체 없이도 사용 가능하므로, this 레퍼런스 사용할 수 없음
+
+final 클래스와 메소드
+* final 클래스 - 더 이상 클래스 상속 불가능
+``` java
+final class FinalClass{
+  ....
+}
+class SubClass extends FinalClass{ // 컴파일 오류 발생
+  .....
+}
+```
+* final 메소드 - 더 이상 오버라이딩 불가능
+```java
+public class SuperClass{
+  protected final int finalMethod(){...}
+}
+class SubClass extends Superclass{ // SubClass가 SuperClass를 상속받음
+  protected in finalMethod(){...} // 컴파일 오류. finalMethod() 오버라이딩 할 수 없음
+}
+```
+
+final 필드
+* final 필드: 상수를 선언할 때 사용
+* 상수 필드는 선언 시에 초기 값을 지정하여야 한다
+* 상수 필드는 실행중에 값을 변경할 수 없다
+
+### 상속(inheritance)
+상속(inheritance)의 필요성
+* 클래스 사이의 멤버 중복 선언 불필요 - 클래스의 간결화
+* 클래스들의 계층적 분류로 클래스 관리 용이
+* 클래스 재사용과 확장을 통한 소프트웨어의 생산성 향상
+
+클래스 상속과 객체
+* 상속 선언: extends 키워드 사용
+* 부모 클래스를 돌려받아 자식 클래스를 확장한다는 의미
+* 부모 클래스 -> 슈퍼 클래스(super class)
+* 자식 클래스 -> 서브 클래스(sub class)
+``` java
+class Point{
+  int x, y;
+}
+class ColorPoint extends Point{ //Point를 상속받는 ColorPoint 클래스 선언
+
+}
+```
+* ColorPoint는 Point를 물려 받으므로, Point에 선언된 필드나 메소드를 재 선언할 필요가 없음
+
+클래스 상속 - Point와 ColorPoint 클래스
+* (x,y)의 한 점을 표현하는 Point 클래스와 이를 상속받아 점에 색을 추가한 ColorPoint 클래스
+``` java
+class Point {
+    private int x, y; // 한 점을 구성하는 x, y 좌표
+    public void set(int x, int y){
+        this.x = x; this.y = y;
+    }
+    public void showPoint(){ // 점의 좌표 출력
+        System.out.println("(" + x + "," + y + ")");
+    }
+}
+
+class ColorPoint extends Point{ //Point를 상속받은 ColorPoint 선언
+    private String color; // 점의 색
+    public void setColor(String color){
+        this.color = color;
+    }
+    public void showColorPoint(){ // 컬러 점의 좌표 출력
+        System.out.print(color);
+        showPoint(); // Point 클래스의 set() 호출
+    }
+}
+
+public class ex5_1{
+    public static void main(String[] args) {
+        Point p = new Point(); // Point 객체  생성
+        p.set(1,2); // Point 클래스의 set() 호출
+        p.showPoint();
+
+        ColorPoint cp = new ColorPoint(); // ColorPoint 객체 생성
+        cp.set(3,4); // Point 클래스의 set() 호출
+        cp.setColor("red"); // ColorPoint 클래스의 setColor() 호출
+        cp.showColorPoint(); // 컬러와 좌표 출력
+    }
+}
+결과: (1,2)
+red(3,4)
+```
+
+서브 클래스 객체의 모양
+* 슈퍼 클래스 객체와 서브 클래스의 객체는 별개
+* 서브 클래스 객체는 슈퍼 클래스 멤버 포함
+
+자바 상속의 특징
+* 클래스 다중 상속(multiple inheritance) 불허
+  > 하나의 클래스가 둘 이상의 부모 클래스를 동시에 상속받는 것을 말한다
+  - C++는 다중 상속 가능
+  - C++는 다중 상속으로 멤버가 중복 생성되는 문제 있음(다이아몬드 상속)
+    > 부모 클래스 간에 계층적 관계가 있을 경우, 중복된 멤버가 생성될 수 있음
+    > 모호성(Ambiguity)문제: 두 부모 클래스에 동일한 이름의 멤버(변수나 함수)가 존재할 경우, 어떤 부모의 멤버를 호출해야 할 지 모호해짐
+* 자바는 인터페이스(interface)의 다중 상속 허용
+  > 다중 상속과 유사한 기능을 제공
+* 모든 자바 클래스는 묵시적으로 Object클래스 상속받음
+  - java.lang.Object는 클래스는 모든 클래스의 슈퍼 클래스
+
+슈퍼 클래스의 멤버에 대한 서브 클래스의 접근
+* 슈퍼 클래스의 private 멤버: 서브 클래스에서 접근 할 수 없음
+* 슈퍼 클래스의 디폴트 멤버: 서브 클래스가 동일한 패키지에 있을 때, 접근 가능
+* 슈퍼 클래스의 public 멤버: 서브 클래스는 항상 접근 가능
+* 슈퍼 클래스의 protected 멤버:
+  - 같은 패키지 내의 모든 클래스 접근 허용
+  - 패키지 여부와 상관없이 서브 클래스는 접근 가능
+
+protected 멤버
+* 슈퍼 클래스의 protected 멤버에 대한 접근: 같은 패키지의 모든 클래스에게 허용
+* 상속되는 서브 클래스가 같은 패키지든 다른 패키지든 상관 없이 허용
+
+
+
+
+
+
+
+
+---
 ## 4월 17일(7주차)
 ### 클래스와 객체
 생성자의 종류
@@ -299,16 +427,10 @@ static의 활용
 * 전역 변수와 전역 함수를 만들 때 활용
 * 공유 멤버를 만들 떄: static으로 선언한 멤버는 클래스의 객체들 사이에 공유
 
-static 메소드의 제약 조건
+static 메소드의 제약 조건 1
 * static 메소드는 오직 static 멤버만 접근 가능
   - 객체가 생성되지 않은 상황에서도 static 메소드는 실행될 수 있기 때문에, non-static 멤버 활용 불가
   - non-static 메소드는 static 멤버 사용 가능
-
-
-
-
-
-
 
 
 ---
