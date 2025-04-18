@@ -193,11 +193,177 @@ public class ex5_2 {
   - 서브 클래스의 레퍼런스를 슈퍼 클래스 레퍼런스에 대입
   - 슈퍼 클래스 레퍼런스로 서브 클래스 객체를 가리키게 되는 현상
 
+업캐스팅 사례
+``` java
+class Person{
+  String name;
+  String id
 
+  public Person(String name){
+    this.name = name;
+  }
+}
+class Student extends Person{
+  String grade;
+  String department;
 
+  public Student(String name){
+    super(name);
+  }
+}
+public claass UpcastingEx{
+  public static void main(String[] args){
+    Person p;
+    Student s = new Student("이재문");
+    p = s; //업캐스팅
 
+    system.out.println(p.name); // 오류 없음
 
+    p.grade = "A"; // 컴파일 오류
+    p.department = "Com"; // 컴파일 오류
+  }
+}
+```
+그렇다면 왜 p = s 로 업캐스팅을 한 걸까?
+* 이 사례는 업캐스팅의 제한 사항을 설명하기 위한 코드
+* 실제로는 이런 식으로 업새크싱을 사용하지 않음
+* 실제로는 여러 자식 클래스를 하나의 부모 타입으로 다루기 위해 사용
+``` java
+Person[] people = new Person[3];
+people[0] = new Student("홍길동");
+people[1] = new Student("김영희");
+people[2] = new Person("이순신");
+```
+* 이렇게 하면 공통된 타입(Person) 으로 여러 자식 클래스를 한 배열에 담을 수 있음
+* 대신 접근은 Person 수준에서만 가능
 
+다운캐스팅(downcasting)
+* 슈퍼 클래스 레퍼런스를 서브 클래스 레퍼런스에 대입
+* 업캐스팅 된 것을 다시 원래대로 되돌리는 것
+* 반드시 명시적 타입 변환 지점
+* 다운 캐스팅 사례
+``` java
+public class DowncastingEX{
+  public static void main(String[] args){
+    Person p = new Student("이재문"); //업캐스팅 발생
+    Student s;
+
+    s = (Student)p; // 다운캐스팅
+
+    System.out.println(s.name); //오류 없음
+    s.grade = "A"; // 오류 없음
+  }
+}
+```
+
+업캐스팅 레퍼런스로 객체 구별?
+* 업캐스팅된 레퍼런스로는 객체의 실제 타입을 구분하기 어려움
+* 슈퍼 클래스는 여러 서브 클래스에 상속되기 때문
+* 예를 들어 아래의 클래스 계층 구조에서 p가 가리키는 객체가 Person 객체인지, Student 객체인지, Professor 객체인지 구분하기 어려움
+``` java
+Person p = new Person();
+Person p = new Student(); // 업캐스팅
+Person p = new Professor(); // 업캐스팅
+```
+
+instanceof 연산자 사용
+* 레퍼런스가 가리키는 객체의 타입 식별: 연산의 결과는 true/false의 불린 값으로 변환
+* instanceof 연산자 사용 사례
+``` java
+Person p = new Professor();
+
+if(p instanceof Person) //true
+if(p instanceof Student) //false, Student를 상속받지 않기 때문
+if(p instanceof Researcher) //true
+if(p instanceof Professor) //true
+
+if("java" instanceof String) //true
+
+if(3 instanceof int) // 문법 오류, instanceof는 객ㅊ에 대한 레퍼런스만 사용
+```
+
+메소드 오버라이딩(Method Overriding)의 개념
+* 서브 클래스에서 슈퍼 클래스의 메소드 중복 작성
+* 슈퍼 클래스의 메소드 무력화, 항상 서브 클래스에 오버라이딩한 메소드가 실행되도록 보장됨
+* "메소드 무시하기"로 번역되기도 함
+* 오버라이딩 조건
+  > 슈퍼 클래스 메소드의 원형(메소드 이룸, 인자 타입 및 개수, 리턴타입) 동일하게 작성
+
+서브 클래스 객체와 오버라이딩 된 메소드 호출
+* 오버라이딩 한 메소드가 실행됨을 보장
+``` java
+class A{
+  void f() {
+    System.out.println("A의 f() 호출");
+  }
+}
+class B extends A{
+  void f() { //A의 f()를 오버라이딩
+    System.out.println("B의 f() 호출");
+  }
+}
+```
+
+오버라이딩의 목적, 다형성 실현
+* 오버라이딩으로 다형성 실현
+* 하나의 일터페이스(같은 이름)에 서로 다른 구현
+* 슈퍼 클래스의 메소드를 서브 클래스에서 각각 목적에 맞게 다르게 구현
+* 사례 Shape의 draw() 메소드를 Line, Rect, Circle에서 오버라이딩하여 다르게 구현
+
+메소드 오버라이딩으로 다형성 실현
+* Shape의 draw() 메소드를 Line, Circle, Rect 클래스에서 목적에 맞게 오버라이딩 하는 다형성의 사례
+``` java
+class Shape { // 도형의 슈퍼 클래스
+    public void draw(){
+        System.out.println("shape");
+    }
+}
+class Line extends Shape {
+    public void draw(){ // 메소드 오버라이딩
+        System.out.println("Line");
+    }
+}
+class Rect extends Shape {
+    public void draw(){ // 메소드 오버라이딩
+        System.out.println("Rect");
+    }
+}
+class Circle extends Shape {
+    public void draw(){ // 메소드 오버라이딩
+        System.out.println("Circle");
+    }
+}
+
+public class ex5_4 {
+    static void paint(Shape p) { // Shape을 상속받은 모든 객체들이 매개 변수로 넘어올 수 있음
+        p.draw(); // p가 가리키는 객체에 오버라이딩한 draw() 호출. 동적 바인딩
+    }
+    public static void main(String[] args) {
+        Line line = new Line();
+        paint(line); // Line의 draw() 실행. "Line" 출력
+
+        //다음 호출들은 모두 paint() 메소드 내엣 Shape에 대한 레퍼런스 pfh 업캐스팅됨
+        paint(new Shape()); // shape의 draw() 실행. "Shape" 출력
+        paint(new Line()); // 오버라이딩된 메소드 Line의 draw() 실행. "Line" 출력
+        paint(new Rect()); // 오버라이딩된 메소드 Rect의 draw() 실행. "Rect" 출력
+        paint(new Circle());// 오버라이딩된 메소드 Circle의 draw() 실행. "Circle" 출력
+    }
+}
+결과: Line
+Shape
+Line
+Rect
+Circle
+```
+
+super 키워드로 슈퍼 클래스의 멤버 접근
+* 슈퍼 클래스의 멤버를 접근할 때 사용되는 레퍼런스 super.슈퍼클래스의 멤버
+* 서브 클래스에서만 사용
+* 슈퍼 클래스의 필드 접근
+* 슈퍼 클래스의 메소드 호출 시 super로 이루어지는 메소드 호출: 정적 바인딩
+
+오버로딩과 오버라이딩
+* 교재 217p의 <표5-2> 참조
 
 ---
 ## 4월 17일(7주차)
