@@ -1,5 +1,204 @@
 # 주우성 202230236
 
+## 5월 8일(10주차)
+### 상속
+추상 클래스
+* 추상 메소드(abstract method): abstract로 선언된 메소드, 메소드의 코드는 없고 원형만 선언
+``` java
+abstract public String getNane(); //추상 메소드
+abstract public String fail() { retrun "Good Bye";} // 추상 메소드 아님. 컴파일 오류
+```
+
+추상 클래스(abstract class)
+* 추상 메소드를 가지며, abstract로 선언된 클래스
+* 추상 메소드 없이, abstract로 선언한 클래스
+``` java
+// 추상 메소드를 가진 추상 클래스
+abstract class shape {
+  public Shape() {...}
+  public void edit() {...}
+
+  abstract public void draw(); //추상 메소드
+}
+
+// 추상 메소드 없는 추상 클래스
+abstract class JComponent{
+  String name;
+  public void load(String name){
+    this.name = name;
+  }
+}
+```
+
+추상 클래스의 인스턴스 생성 불가
+* 추상 클래스는 온전한 클래스가 아니기 때문에 인스턴스를 생성할 수 없음
+``` java
+JComponent p; // 오류 없음. 추상 클래스의 레퍼런스 선언
+p = new JComponent(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+Shape obj = new Shape(); //컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+
+추상 클래스의 상속과 구현
+* 추상 클래스 상속
+  - 추상 클래스를 상속받으면 추상 클래스가 됨
+  - 서브 클래스도 abstract로 선언 해야 함
+``` java
+abstract class A { // 추상 클래스
+  abstract public int add(int x, int y); //추상 메소드
+}
+abstract class B extends A {  // 추상 클래스
+  public void show() {System.out.println("B");}
+}
+
+A a = new A(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+B b = new B(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+
+* 추상 클래스 구현
+  - 서브 클래스에서 슈퍼 클래스의 추상 메소드 구현(오버라이딩)
+  - 추상 클래스를 구현한 서브 클래스는 추상 클래스 아님
+``` java
+class C extends A { // 추상 클래스 구현. C는 정상 클래스
+  public int add (int x, int y) {return x+y; } //추상 메소드 구현. 오버라이딩
+  public void show() {System.out.println("C"); }
+}
+
+C c = new C(); // 정상
+```
+
+추상 클래스의 목적
+* 추상 클래스의 목적
+  - 상속을 위한 슈퍼 클래스로 활용하는 것
+  - 서브 클래스에서 추상 메소드 구현
+  - 다형성 실현
+
+추상 클래스의 구현
+``` java
+abstract class Calculator {
+    public abstract int add(int a, int b); // 두 정수위 합을 구하여 리턴
+    public abstract int substract(int a, int b); // 두 정수의 차를 구하여 리턴
+    public abstract double average(int[] a); // 정수 배열의 평균 리턴
+}
+```
+``` java
+public class ex5_5 extends Calculator {
+    @Override
+    public int add(int a, int b) { // 추상 메소드 구현
+        return a + b;
+    }
+    @Override
+    public int substract(int a, int b){ // 추상 메소드 구현
+        return a - b;
+    }
+    @Override
+    public double average(int[] a) { // 추상 메소드 구현
+        double sum = 0;
+        for(int i=0; i<a.length; i++)
+            sum += a[i];
+        return sum/a.length;
+    }
+    public static void main(String [] args) {
+        ex5_5 c = new ex5_5();
+        System.out.println(c.add(2,3));
+        System.out.println(c.substract(2,3));
+        System.out.println(c.average(new int [] {2,3,4}));
+    }
+}
+결과: 5
+-1 
+3.0
+```
+
+자바의 인터페이스
+* 소프트웨어를 규격화된 모듈로 만들고, 인터페이스 맞는 모듈을 조립하듯이 응용프로그램을 작성 하기 위해서 사용
+
+* 자바의 인터페이스
+  - 클래스가 구현해야 할 메소드들이 선언되는 추상형
+  - 인터페이스 선언: Interface 키워드로 선언.
+
+``` java
+interface PhoneInterface { // 인터페이스 선언
+  public static final int TIMEOUT = 10000; // 상수 필드. public static final 생략 가능
+  public abstract void sendCall(); // 추상 메소드. public abstract 생략 가능
+  public abstract void receiveCall(); // 추상 메소드. public abstract 생략 가능
+  public default void printLogo() { // 디폴트 메소드는 public 생략 가능
+    System.out.println("** Phone **");
+  } //디폴트 메소드
+}
+```
+
+인터페이스 구성 요소들의 특징
+* 상수: public만 허용, public static final 생략
+* 추상 메소드: public abstract 생략 가능
+* default 메소드:
+  - 인터페이스에 코드가 작성된 메소드
+  - 인터페이스를 구현하는 클래스에 자동 상속
+  - public 접근 지정만 허용. 생략 가능
+* private 메소드:
+  - 인터페이스 내에 메소드 코드가 작성되어야 함
+  - 인터페이스 내에 있는 다른 메소드에 의해서만 호출 가능
+* static 메소드: public, private 모두 지정 가능. 생략하면 public
+
+자바 인터페이스 특징
+* 인터페이스의 객체 생성 불가
+``` java
+new PhoneInterface(); // 오류. 인터페이스 PhoneInterface 객체 생성 불가
+```
+* 인터페이스 타입의 레퍼런스 변수 선언 가능
+``` java
+PhoneInterface galaxy; //galaxy는 인터페이스에 대한 레퍼런스 변수
+```
+
+인터페이스 상속
+* 인터페이스 간에 상속 가능:
+  - 인터페이스를 상속하여 확장된 인터페이스 작성 가능
+  - extends 키워드로 상속 선언
+* 예)
+``` java
+interface MobilePhoneInterface extends PhoneInterface {
+  void sendSMS(); // 추상 메소드 추가
+  void receiveSMS(); // 추상 메소드 추가
+}
+```
+* 인터페이스 다중 상속 허용( * 일반 상속에서는 허용되지 않음)
+* 예)
+``` java
+interface MusicPhoneInterface extends PhoneInterface, MP3Interface
+(
+  ......
+)
+```
+
+인터페이스 구현
+* 인터페이스의 추상 메소드를 모두 구현한 클래스 작성
+  - implements 키워드 사용
+  - 여러 개의 인터페이스 동시 구현 가능
+* 인터페이스 구현 사례
+  - PhoneInterface 인터페이스를 구현한 SamsungPhone 클래스
+``` java
+class SamsungPhone inplemets PhoneInterface { // 인터페이스 구현
+  // PhoneInterface의 모든 메소드 구현
+  public void sendCall() {System.out.println("띠리리리링");}
+  public void receiveCall() {System.out.println("전화가 왔습니다.");}
+
+  // 메소드 추가 작성
+  public void flash() {System.out.println("전화기에 불이 켜젔습니다.");}
+}
+```
+* SamsungPhone 클래스는 PhoneInterface의 default 메소드 상속
+
+### 모듈과 패키지 개념, 자바 패키지 활용
+패키지 개념과 필요성
+* 3명이 분담하여 자바 응용프로그램을 개발하는 경우, 동일한 이름의 클래스가 존재할 가능성 있음 <br> 
+-> 합칠 때 오류 발생 가능성 <br> 
+-> 개발자가 서로 다른 디랙터리로 코드 관리하여 해결
+
+
+
+
+
+
+---
 ## 4월 18일(9주차)
 ### 클래스와 객체
 static 메소드의 제약 조건 2
