@@ -219,10 +219,105 @@ class SamsungPhone inplemets PhoneInterface { // 인터페이스 구현
 * 현실적으로 모듈로 나누어 자바 프로그램을 작성할 필요 없음
 * 모듈화 작업은 매우 중요한 개념이며, 소규모 프로젝트부터 적용해야 대형 프로젝트 쉽게 도입, 활용 가능
 
+자바 API의 모듈 파일들
+* 자바 JDK에 제공되는 모듈 파일들
+  - 자바가 설치된 jmods 디렉터리에 모듈 파일 존재: .jmod 확장자를 가진 파일. 모듈은 수 십개. 모듈 파일은 ZIP 포맷으로 압축된 파일 -> 포맷이 zip이며 확장자는 .jmod
+* 모듈 파일에는 자바 API의 패키지와 클래스들이 들어 있음
+
+java.base.jmod 파일을 풀어 놓은 사례
+* java.base.jmod 파일을 풀면, 모듈에 있는 패키지와 클래스를 볼 수 있다
+
+패키지 사용하기, import문
+* 다른 패키지에 작성된 클래스 사용
+  - import를 이용하지 않는 겅우 -> 소스에 클래스 이름의 완전 경로명 사옹
+``` java
+public class ImportExample{
+  public static void main(String[] args){
+    java.util.Scanner scanner = 
+      new java.util.Scanner(System.in);
+  }
+}
+```
+
+* 필요한 클래스만 import
+  - 소스 시작 부분에 클래스의 경로명 import
+  - import 패키지.클래스
+  - 소스에는 클래스 명만 명시하면 됨
+``` java
+import java.util.Scanner;
+public class ImportExample{
+  public static void main(String [] args){
+    Scanner scanner = new Scanner(System.in);
+    System.out,println(scanner.next());
+  }
+}
+```
+
+* 패키지 전체를 import
+  - 소스 시작 부분에 패키지의 경로명.* import
+  - import 패키지.*
+  - import java.util.*; -> java.util 패키지 내의 모든 클래스만을 지정, 하위 패키지의 클래스는 포함하지 않음
+``` java
+import java.util.*;
+public class ImportExample{
+  public static void main(String[] args){
+    Scanner scanner = new Scanner(System.in);
+    System.out.println(scanner.next());
+  }
+}
+```
 
 
+패키지 만들기
+* 클래스 파일(.class)이 저장되는 위치는?
+  - 클래스나 인터페이스가 컴파일 되면 클래스 파일(.class) 생성
+  - 클래스 파일은 패키지로 선언된 디렉터리에 저장
+* 패키지 선언
+  - 소스 파일의 맨 앞에 컴파일 후 저장될 패키지 지정 => package 패키지명;
+``` java
+package UI; // 아래 Tools를 컴파일하여 UI 패키지(UI 디렉터리)에 저장할 것 지시
+public class Tools{
+  ......
+}
+```
+``` java
+package Graphic; // 아래 Line 클래스를 Graphic 패키지에 저장
+import UI.Tools;
+public class Line extends Shape{
+  public void draw() {
+    Tools t = new Tools();
+  }
+}
+```
 
+디폴트 패키지
+* package 선언문이 없는 자바 소스 파일의 경우
+  - 컴파일러는 클래스나 인터페이스를 디폴트 패키지에 소속시킴
+  - 디폴트 패키지 -> 현재 디렉터리
 
+VS Code에서 Java Package 생성하기 1
+* Eclipse 보다도 간단히 만들 수 있음
+* 일반적으로 package는 com.foo.test와 같이 도메인의 역순으로 만드는 것이 일반적
+
+1. 먼저 다음과 같은 디렉터리 구조 생성. 한 번에 com/foo/test로 입력해도 좋음
+
+2. 클래스 파일에 package com.foo.test
+
+VS Code에서 Java Package 생성하기 2
+* Explorer 아래쪽의 "JAVA PROECTS"를 클릭하면 package의 계층 구조를 볼 수 있음
+* 사용자 정의 package를 만든 후 사용하려면 import 키워드 사용 <br>
+// 파일: src/com/example/utils/HelloUtill.java <br>
+// 파일: src/com/example/Main.java
+* 어떤 클래스 파일에서 package선언을 생략하면 default package에 속함
+* 같은 기본 패키지에 있는 다른 클래스에서는 import 없이 사용 가능 -> 5장까지 했던 방식
+* default package에 속해 있으면 다른 package를 사용할 수 없음
+* 실제 프로젝트에서는 거의 모든 클래스가 명시적으로 package를 선언
+
+package의 운영 방법
+* 패키지 이름은 도메인 기반으로 시작(일반 관례)형식: com.회사이름.프로젝트명.기능명 -> 충돌 방지(전 세계 어디서든 유일한 패키지명 확보 가능) / 모듈별 분리 가능
+* 기능/역할별로 하위 패키지를 구분: utils, controllerm service 등
+* 디렉토리 구조와 package 선언을 정확히 일치해야 함
+* import는 필요한 만큼만 * 전체 import는 피하는 것이 좋음
 
 ---
 ## 4월 18일(9주차)
