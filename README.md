@@ -78,8 +78,8 @@ public class ex6_1 {
     }
 }
 결과: Point
-22279806
-Point@153f67e
+804564176
+Point@2ff4acd0
 ```
 
 toString() 메소드, 객체를 문자열로 변환
@@ -123,10 +123,73 @@ Point(2, 3)
 
 객체 비교(==)와 equals() 메소드
 * == 연산자: 객체 레퍼런스 비교
+``` java
+Point a = new Point(2,3);
+Point b = new Point(2,3);
+Point c = a;
+
+if (a==b) // false
+  System.out.println("a==b");
+if (a==c) // true
+  System.out.println("a==c");
+결과: a==c
+```
+
 * boolean equals(Object obj)
   - 두 객체의 내용물 비교
   - 객체의 내용물을 비교하기 위해 클래스의 멤버로 작성
 
+Point 클래스의 equals() 작성
+``` java
+class Point2{
+    private int x, y;
+    public Point2(int x, int y){ this.x = x; this.y = y;}
+    public  boolean equals(Object obj){
+        Point2 p = (Point2)obj;
+        if(x == p.x && y == p.y) return true;
+        else return false;
+    }
+}
+
+public class ex6_3 {
+    public static void main(String[] args) {
+        Point2 a = new Point2(2,3);
+        Point2 b = new Point2 (2,3);
+        Point2 c = new Point2(3,4);
+        if(a == b) System.out.println("a==b");
+        if(a.equals(b)) System.out.println("a is equal to b");
+        if(a.equals(c)) System.out.println("a is equal to c");
+    }
+}
+결과: a is equla to b
+```
+
+Rect 클래스와 equals() 메소드 만들기 연습
+``` java
+class Rect1 {
+    private int width, height;
+    public Rect1(int width, int height){
+        this.width = width; this.height = height;
+    }
+    public boolean equals(Object obj){
+        Rect1 p = (Rect1)obj;
+        if (width*height == p.width*p.height) return true;
+        else return false;
+    }
+}
+
+public class ex6_4 {
+    public static void main(String[] args) {
+        Rect1 a = new Rect1(2,3);
+        Rect1 b = new Rect1(3,2);
+        Rect1 c = new Rect1(3,4);
+        if(a.equals(b)) System.out.println("a is equal to b");
+        if(a.equals(c)) System.out.println("a is equal to c");
+        if(b.equals(c)) System.out.println("b is equal to c");
+    }
+}
+결과: a is equal to b
+```
 
 
 ---
