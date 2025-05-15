@@ -145,7 +145,7 @@ class Point2{
     private int x, y;
     public Point2(int x, int y){ this.x = x; this.y = y;}
     public  boolean equals(Object obj){
-        Point2 p = (Point2)obj;
+        Point2 p = (Point2)obj; // obj를 Point 타입으로 다운 캐스팅
         if(x == p.x && y == p.y) return true;
         else return false;
     }
@@ -171,8 +171,8 @@ class Rect1 {
     public Rect1(int width, int height){
         this.width = width; this.height = height;
     }
-    public boolean equals(Object obj){
-        Rect1 p = (Rect1)obj;
+    public boolean equals(Object obj){ // 사각형 면적 비교
+        Rect1 p = (Rect1)obj; // obj를 Rect로 다운 캐스팅
         if (width*height == p.width*p.height) return true;
         else return false;
     }
@@ -180,9 +180,9 @@ class Rect1 {
 
 public class ex6_4 {
     public static void main(String[] args) {
-        Rect1 a = new Rect1(2,3);
-        Rect1 b = new Rect1(3,2);
-        Rect1 c = new Rect1(3,4);
+        Rect1 a = new Rect1(2,3); // 면적 6
+        Rect1 b = new Rect1(3,2); // 면적 6
+        Rect1 c = new Rect1(3,4); // 면적 12
         if(a.equals(b)) System.out.println("a is equal to b");
         if(a.equals(c)) System.out.println("a is equal to c");
         if(b.equals(c)) System.out.println("b is equal to c");
@@ -191,6 +191,116 @@ public class ex6_4 {
 결과: a is equal to b
 ```
 
+Wrapper 클래스
+* Wrapper 클래스: 자바의 기본 타입을 클래스화 한 8개 클래스를 통칭
+* 용도: 객체만 사용할 수 있는 컬렉션 등에 기본 타입의 값을 사용하기 위해 Wrapper 객체로 만들어 사용
+
+Wrapper 객체 생성
+* 기본 타입의 값으로 Wrapper 객체 생성
+``` java
+Integer i = Integer.valueOf(10);
+Character c = Character.valueOf('c');
+Double f = Double.valueOf(3.14);
+Boolean b = Boolean.valueOf(true);
+```
+* 문자열로 Wrapper 객체 생성
+``` java
+Integer i = Integer.valueOf("10");
+Boolean b = Boolea.valueOf("false");
+```
+
+주요 메소드
+* 가장 많이 사용하는 Integer 클래스의 주요 메소드 <br>
+: 다른 Wrapper 클래스의 메소드는 이와 유사
+
+* Wrapper 객체로부터 기본 타입 값 알아내기
+``` java
+Integer i = Integer.valueOf(10);
+int ii = i.IntValue(); // ii = 10
+Character c = Character.valueOf('c');
+char cc = c.charValue(); // cc = 'c'
+Boolean b = Boolean.valueOf(true);
+boolean bb = b.booleanValue(); // bb = true
+```
+* 문자열을 기본 데이터 타입으로 변환
+``` java
+int i =  Integer.parseInt("123") // i = 123
+double d = Double.parseDouble("3.142592"); // d = 3.141592
+```
+* 기본 타입을 문자열로 변환
+``` java
+String s1 = Integer.toString(123); // 정수 123을 문자열 "123"으로 변환
+String s2 = Integer.toHexString(123); // 정수 123을 16진수의 문자열 "7b"로 변환
+String s3 = Double.toString(3.14); // 실수 3.14를 문자열 "3.14"로 변환
+String s4 = Character.toString('a'); // 문자 'a'를 문자열 "a"로 변환
+String s5 = Boolean.toString(true); // 불린 값 true를 문자열 "true"로 변환
+```
+
+박싱과 언박싱
+* 박싱(boxing): 기본 타입의 값을 Wrapper 객체로 변환하는 것
+* 언박싱(unboxing): Wrapper 객체에 들어 있는 기본 타입의 값을 빼내는 것. 박싱의 반대
+* 자동 박싱과 자동 언박싱: JDK 1.5부터 박싱과 언박싱은 자동으로 이루어지도록 컴파일 됨
+``` java
+Integer ten = 10; // 자동 박싱. Integer ten = Integer.valueOf(10);로 자동 처리
+Int n = ten; // 자동 언박싱. int n = ten.intValue();로 자동 처리
+```
+
+String의 생성과 특징
+* String 클래스는 문자열을 나타냄
+* 스트링 리터럴(문자열 리터럴)은 String 객체로 처리됨
+* 스트링 객체의 생성 사례
+``` java
+String str1 = "abcd"; // 스트링 리터럴로 스트링 객체 생성
+
+char data[] = {'a', 'b', 'c', 'd'};
+String str2 = new String(data);
+String str3 = new String("abcd"); // str2와 str3은 모두 "abcd" 문자열
+```
+
+스트링 리터럴과 new String()
+* 스트링 리터럴
+  - 자바 가상 기계 내부에서 리터럴 테이블에 저장되고 관리됨
+  - 응용프로그램에서 공유됨
+  - 스트링 리터럴 사례: String s = "Hello";
+* new String()으로 생성된 스트링
+  - 스트링 객체는 힙에 생성
+  - 스트링은 공유되지 않음
+
+스트링 객체의 주요 특징
+* 스트링 객체는 수정 불가능
+  - 리터럴 스트링이든 new String()을 생성했든 객체의 문자열 수정 불가능 <
+
+String 활용
+* 스트링 비교, equals()와 compareTo() <br>
+-> 스트링 비교에 == 연산자 절대 사용 금지
+  - equals(): 스트링이 같으면 true, 아니면 false 리턴
+``` java
+String java="Java";
+if(java.equals("Java")) //true
+```
+
+* int compareTo(String anotherString)
+  - 문자열이 같으면 0 리턴
+  - 이 문자일여 anotherString 보다 먼저 나오면 음수 리턴
+  - 이 문자열이 anotherString 보다 나중에 나오면 양수 리턴
+``` java
+String java = "Java";
+String cpp = "C++";
+int res = java.compareTo(cpp);
+if(res == 0) System.out.println("the same");
+else if(res < 0) System.out.println(java + "<" + cpp);
+else System.out.println(java + ">" + cpp);
+결과: Java > C++
+```
+
+String 활용
+* 공백 제거, String trim()
+* 키보드나 파일로부터 스트링을 입력 시, 스트링 앞 뒤 공백이 끼는 경우가 많다
+trim()은 스트링 앞 뒤에 있는 공백 문자를 제거한 스트링을 리턴
+``` java
+String a = "  xyz\t";
+String b = a.trim(); // b = "xyz". 스페이스와 '\t'는 제거됨
+```
 
 ---
 ## 5월 8일(10주차)
