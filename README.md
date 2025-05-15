@@ -1,5 +1,135 @@
 # 주우성 202230236
 
+
+## 5월 15일(11주차)
+### 모듈과 패키지 개념, 자바 패키지 활용
+모듈 개념
+* Java 9에서 도입된 개념
+* 패키지와 이미지 등의 리소스를 담은 컨테이너
+* 모듈 파일(.mod)로 저장
+
+자바 플랫폼의 모듈화
+* 자바 플랫폼
+  - 자바의 개발 환경(JDK)와 자바의 실행 환경(JRE)를 지칭. Java SE(자바 API) 포함
+  - 자바 API의 모든 클래스가 여러 개의 모듈로 재구성됨
+  - 모듈 파일은 JDK와 jmods 디렉터리에 저장하여 배포
+* 모듈 파일로부터 모듈을 푸는 명령
+  - jmod extract "C:\Program Files\Java\jdk-1.0.3+7\jmods\java.base.jmod"
+  - 현재 디렉터리에 java.base 모듈이 패키지와 클래스들로 풀림
+* 테스트를 할 때는 temp 디렉토리를 만들어서 하는 것이 좋음
+
+자바 모듈화의 목적
+* 자바 컴포넌트들을 필오에 따라 조립하여 사용하기 위함
+* 컴퓨터 시스템의 불필요한 부담 감소
+  - 세밀한 모듈화를 통해 필요 없는 모듈이 로드되지 않게 함
+  - 소형 IoT 장치에도 자바 응용프로그램이 실행되고 성능을 유지하게 함
+
+JDK의 주요 패키지
+* java.lang
+  - 스트링, 수학 함수, 입출력 등 자바 프로그래밍에 필요한 기본적인 클래스와 인터페이스
+  - 자동으로 import 됨- import 문 필요 없음
+* java.util
+  - 날짜, 시간, 벡터, 해시맵 등의 유틸리티 클래스와 인터페이스
+* java.io
+  - 키보드, 모니터, 프린터 등의 입출력 클래스와 인터페이스
+* java.awt
+   - GUI 프로그래밍에 필요한 AWT 클래스와 인터페이스
+* javax.swing
+  - 스윙 GUI 프로그래밍에 필요한 클래스와 인터페이스
+
+Object 클래스
+* 모든 자바 클래스는 반드시 Object를 상속받도록 자동 컴파일
+* 모든 클래스의 수퍼 클래스
+* 모든 클래스가 상속받는 공통 메소드 포함
+* 주요 메소드
+  - boolean equals(Object obj)
+  - Class getClass()
+  - int hashCode
+  - String toString()
+  - void notify()
+  - void notifyAll()
+  - void wait()
+
+객체 속성
+* Object 클래스는 객체의 속성을 나타내는 메소드 제공
+* hashCode() 메소드
+  - 객체의 해시코드 값을 리턴하며, 객체마다 다름
+* getClass() 메소드
+  - 객체의 클래스 정보를 담은 Class 객체 리턴
+  - Class 객체의 getName() 메소드는 객체의 클래스 이름 리턴
+* toString() 메소드
+  - 객체를 문자열로 리턴
+
+Object 클래스로 겍체의 속성 알아내기
+``` java
+class Point {
+    private int x, y;
+    public Point(int x, int y){
+        this.x = x; this.y = y;
+    }
+}
+
+public class ex6_1 {
+    public static void main(String[] args) {
+        Point p = new Point(2,3);
+        System.out.println(p.getClass().getName());
+        System.out.println(p.hashCode());
+        System.out.println(p.toString());
+    }
+}
+결과: Point
+22279806
+Point@153f67e
+```
+
+toString() 메소드, 객체를 문자열로 변환
+* 각 클래스는 toString()을 오버라이딩하여 자신만의 문자열 리턴 가능
+  - 객체를 문자열로 반환
+  - 원형: public String toString();
+``` java
+public String toString(); //public으로 선언해야 함에 특히 주의
+```
+* 컴파일러에 의한 toString() 자동 변환
+  - '객체' + '문자열' -> '객체.toString() + 문자열'로 자동 변환
+  - 객체를 단독으로 사용하는 경우 -> 객체.toString()으로 자동 변환
+``` java
+Point a = new Point(2, 3);
+String s = a + "점"; // a.toString() + "점"으로 자동 변환됨
+System.out.println(a); // System.out.println(a.toString());으로 자동 변환됨
+```
+
+Point 클래스에 toString() 작성
+``` java
+class Point {
+    private int x, y;
+    public Point(int x, int y){
+        this.x = x; this.y = y;
+    }
+    public String toString() {
+        return "Point(" + x + "," + y + ")";
+    }
+}
+
+public class ex6_2 {
+    public static void main(String[] args) {
+        Point a = new Point(2,3);
+        System.out.println(a.toString());
+        System.out.println(a); // a는 a.toString()으로 자동 변환됨
+    }
+}
+결과: Point(2, 3)
+Point(2, 3)
+```
+
+객체 비교(==)와 equals() 메소드
+* == 연산자: 객체 레퍼런스 비교
+* boolean equals(Object obj)
+  - 두 객체의 내용물 비교
+  - 객체의 내용물을 비교하기 위해 클래스의 멤버로 작성
+
+
+
+---
 ## 5월 8일(10주차)
 ### 상속
 추상 클래스
