@@ -268,11 +268,57 @@ h.put("apple", "사과"); // apple" 키와 "사과" 값의 쌍을 해시맵에 �
 String kor = h.get("apple"); // "apple" 키로 값 검색. kor는 "사과"
 ```
 
+제네릭 만들기
+* 제네릭 클래스 작성: 클래스 이름 옆에 일반화된 타입 매개 변수 추가
+``` java
+public class Myclass<T>{ //제네릭 클래스 MyClass 선언, 타입 매개 변수 T
+  T val;
+  void set(T a){
+    val = a; // T 타입의 값 a를 val에 지정
+  }
+  T get(){
+    return val; // T 타입의 값 val 리턴
+  }
+}
+```
+* 제네릭 객체 생성 및 활용
+  - 제네릭 타입에 구체적인 타입을 지정하여 객체를 생성하는 것을 구체화라고 함
+``` java
+MyClass<String> s = new MyClass<String>(); // T를 String으로 구체화
+s.set("Hello");
+System.out.println(s.get()); // "Hello" 출력
 
+MyClass<Integer> n = new MyClass<Integer>(); // T를 Integer로 구체화
+n.set(5);
+System.out.println(n.get()); // 숫자 5 출력
+```
 
+### 자바 GUI 스윙 기초
+자바의 GUI
+* GUI: 사용자가 편리하게 입출력 할 수 있도록 그래픽으로 화면을 구성하고, 마우스나 키보드로 입력 받을 수 있도록 지원하는 사용자 인터페이스
+* 자바 언어에서 GUI 응용프로그램 작성: AWT와 Swing 패키지에 강력한 GUI 컴포넌트 제공
 
+* AWT(Abstract Windowing Toolkit) 패키지
+  - 자바가 처음 나왔을 때 부터 배포된 GUI 패키지, 최근에는 거의 사용하지 않음
+  - AWT 컴포넌트는 중량 컴포넌트(heavy weight component)
+  - AWT 컴포넌트의 그리기는 운영체제에 의해 이루어지며, 운영체제의 자원을 많이 소모하고 부담을 줌
+  - 운영체제가 직접 그리기 때문에 속도는 빠름
 
+* Swing 패키지
+  - AWT 기술을 기반으로 작성된 자바 라이브럴
+  - 모든 AWT 기능 + 추가된 풍부하고 화려한 고급 컴포넌트
+  - AWT 컴포넌트를 모두 스윙으로 재작성
+  - AWT 컴포넌트 이름 앞에 J자를 덧붙임
+  - 순수 자바 언어로 구현
+  - 스윙 컴포넌트는 경량 컴포넌트(light weight component)
+  - 스윙 컴포넌트는 운영체제의 도움을 받지 않고, 직접 그리기 때문에 운영체제에 부담주지 않음
+  - 현재 자바의 GUI 표준으로 사용됨
 
+GUI 패키지 계층 구조
+* 모든 GUI 컴포넌트들은 Component 클래스를 반드시 상속받음
+* 그 중 스윙 컴포넌트의 클래스 명은 모두 J로 시작
+
+---
 ## 5월 15일(11주차)
 ### 모듈과 패키지 개념, 자바 패키지 활용
 모듈 개념
