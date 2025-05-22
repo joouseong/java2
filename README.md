@@ -97,7 +97,180 @@ public class ex6_8 {
 
 
 ### 컬렉션과 제네릭
-컬렉션 
+컬렉션(collection)의 개념
+* 요소(element)라고 불리는 가변 개수의 객체들의 저장소
+  - 객체들의 컨테이너라고도 불림
+  - 요소의 개수에 따라 크기 자동 조절
+  - 요소의 삽입, 삭제에 따른 요소의 위치 자동 이동
+* 고정 크기의 배열을 다루는 어려움 해소
+* 다양한 객체들의 삽입, 삭제, 검색 등의 관리 용이
+
+컬렉션 자바 인터페이스와 클래스
+
+컬렉션의 특징
+1. 컬렉션은 제네릭(generics) 기법으로 구현
+* 제네릭
+  - 특정 타입만 다루지 않고, 여러 종류의 타입으로 변신할 수 있도록 클래스나 메소드를 일반화 시키는 기법
+  - 클래스나 인터페이스 이름에 <E>, <K>, <V> 등 타입 매개변수 포함
+* 제네릭 컬렉션 사례 : 벡터 Vector<E>
+   -<E>에서 E에 구체적인 타입을 주어 구체적인 타입만 다루는 벡터로 활용
+   - 정수만 다루는 컬렉션 벡터 Vector<Integer>
+   - 문자열만 다루는 컬렉션 벡터 Vector<String>
+
+2. 컬렉션의 요소는 객체만 가능
+* int, char, double 등의 기본 타입으로 구체화 불가
+* 컬렉션 사례
+``` java
+Vector<int> v = new Vector<int>(); // 컴파일 오류, int는 사용 불가
+Vector<Integer> v = new Vector<Integer>() // 정상 코드
+```
+
+제네릭은 형판과 같은 개념
+* 제네릭은 클래스나 메소드를 형판에서 찍어내듯이 생산할 수 있도록 일반화된 형판을 만드는 기법
+
+제네릭의 기본 개념
+* 제네릭
+  - JDK 1.5부터 도입(2004년 기점)
+  - 모든 종류의 데이터 타입을 다룰 수 있도록 일반화된 타입 매개 변수로 클래스(인터페이스)나 메소드를 작성하는 기법
+  - C++의 템플릿(template)과 동일
+
+Vector<E>의 특징
+* <E>에 사용할 요소의 특정한 타입으로 구체화
+* 배열을 가변 크기로 다룰 수 있게 하는 컨테이너
+  - 배열의 길이 제한 극복
+  - 요소의 개수가 넘치면 자동으로 길이 조절
+* 요소 객체들을 삽입, 삭제, 검색하는 컨테이너
+  - 삽입, 삭제에 따라 자동으로 요소의 위치 조정
+* Vector에 삽입 가능한 것
+  - 객체, null
+  - 기본 타입의 값은 Wrapper 객체로 만들어 저장
+* Vector에 객체 삽입
+  - 벡터의 맨 뒤, 중간에 객체 삽입 가능
+* Vector에서 객체 삭제
+  - 임의의 위치에 있는 객체 삭제 가능
+``` java
+Vector<Integer> v = new Vector<Integer>(); //정수만 사용 가능한 벡터
+Vector<int> v = new Vector<int>(); // 오류. int는 사용 불가
+Vector<Integer> v = new Vector<Integer>(); // 초기 용량이 7인 벡터 생성
+```
+
+타입 매개 변수 사용하지 않는 경우 경고 발생
+* Vector<Integer>나 Vector<String> 등 타입 매개 변수를 사용해야 함
+
+Vector<E> 클래스의 주요 메소드
+* boolean add(E element): 벡터의 맨 뒤에 element 추가
+* void add(int index, e element): 인덱스 index에 element를 삽입
+* int capacity(): 벡터의 현재 용량 리턴
+boolean addAll(Collction?extends e> c): 컬렉션 c의 모든 요소를 벡터의 맨 뒤에 추가
+* void clear(): 벡터의 모든 요소 삭제
+* boolean contains(Object o): 벡터가 지정된 객체 o를 포함하고 있으면 true 리턴
+* E elementAt(int inedx): 인덱스 index의 요소 리턴
+* E get(int index): 인덱스 index의 요소 리턴
+...
+
+컬렉션과 자동 박싱/언박싱
+* JDK 1.5 이전
+  - 기본 타입 데이터를 Wrapper 객채로 만들어 삽입
+  ``` java
+  Vector<Integer> v = new Vector<Integer>();
+  v.add(Integer.valueOf(4));
+  ```
+  - 컬렉션으로부터 요소를 얻어올 때, Wraper 클래스로 캐스팅 필요
+  ``` java
+  Integer n = (integer)v.get(0);
+  int k = n.intValue(); // k = 4
+  ```
+
+* JDK 1.5 부터
+  - 자동 박싱/언박싱이 작동하여 기본 타입 값 삽입 가능
+  ``` java
+  Vector<Integer> v = new Vector<Integer>();
+  v.add(4); // 정수 4가 Integer(4)로 자동 박싱됨
+  ```
+  - 그러나, 타입 매개 변수를 기본 타입으로 구체화할 수는 없음
+  ``` java
+  int k = v.get(0); // k = 4
+  ```
+
+컬렉션 생성문의 진화: Java 7, Java 10
+* Java 7 이전
+``` java
+Vector<Integer> v = new Vector<Integer>();
+```
+* Java 7 이후
+  - 컴파일러의 타입 추론 기능 추가
+  - <>(다이어몬드 연산자)에 타입 매개변수 생략
+``` java
+Vector<Integer> v = new Vector<>(); //Java 7부터 추가, 가능
+```
+* Java 10 이후
+  - var 키워드 도입, 컴파일러의 지역 변수 타입 추론 가능
+``` java
+var v = new Vector<Integer>(); // Java 10부터 추가, 가능
+```
+
+ArrayList<E>
+* 가변 크기 배열을 구현한 클래스
+  - <E>에 요소로 사용할 특정 타입으로 구체화
+* 벡터와 거의 동일
+  - 요소 삽입, 삭제, 검색 등 벡터 기능과 거의 동일
+  - 벡터와 달리 스레드 동기화 기능 없음
+  - 다수 스레드가 동시에 ArrayList에 접근할 때 동기화되지 않음
+  - 개발자가 스레드 동기화 코드 작성
+
+ArrayList와 Vector의 차이
+* ArrayList와 Vector는 모두 동적으로 크기가 늘어나는 배열 기반으 리스트 클래스
+* 비교 요약 <br>
+
+| 항목 | ArrayList | Vector |
+|---|---|---|
+|초기화 여부|비동기화(스레드안전X)|동기화(스레드안전O)
+|성능|빠름(싱글 스레드에 적합)|느림(동기화로 인한 오버헤드 발생)
+|기본 크기 증가|1.5배씩 증가|2배씩 증가
+|도입 시기|Java 1.2(Collecton Framework)|Java1.0(초기부터 존재)
+|사용 권장 여부|현대 개발에서 추천|특별한 이유가 없다면 지양
+
+* 요즘은 ArrayList가 기본 선택지
+* Vector는 이제 거의 사용하지 않고, 멀티스레드가 필요하면 다른 방법(synchronizedList, CopyOnWriteArrayList)을 사용
+
+컬렉션의 순차 검색을 위한 Iterator
+* Iterator<E> 인터페이스
+  - 리스트 구조의 컬렉션에서 요소의 순차 검색을 위한 인터페이스
+  - Vector<E>, ArrayList<E>, LinkedList<E>가 상속받는 인터페이스
+* Iterator 객체 얻어내기
+  - 컬렉션의 iterator() 메소드 호출: 해당 컬렉션을 순차 검색할 수 있는 Iterator 객체 리턴
+  ``` java
+  Vector<Integer> v = new Vector<Integer>();
+  Iterator<Integer> it = v.iterator();
+  ```
+* 컬렉션 검색 코드
+``` java
+while(int.hasNext()){ // 모든 요소 방문
+  int n = it.next(); // 다음 요소 리턴
+  ...
+}
+```
+
+HashMap<K, V>
+* 키(key)와 값(value)의 쌍으로 구성되는 요소를 다루는 컬렉션
+  - K: 키로 사용할 요소의 타입
+  - V: 값으로 사용할 요소의 타입
+  - 키와 값이 한 쌍으로 삽입
+  - '값'을 검색하기 위해서는 반드시 '키' 이용
+* 삽입 및 검색이 빠른 특징
+  - 요소 삽입: put() 메소드
+  - 요소 검색: get() 메소드
+* 예) HashMap<String, String> 생성, 요소 삽입, 요소 검색
+``` java
+HashMap<String, String> h = new HashMap<String, String>(); // 해시맵 객체 생성
+
+h.put("apple", "사과"); // apple" 키와 "사과" 값의 쌍을 해시맵에 삽입
+String kor = h.get("apple"); // "apple" 키로 값 검색. kor는 "사과"
+```
+
+
+
+
 
 
 ## 5월 15일(11주차)
