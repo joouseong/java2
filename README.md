@@ -1,5 +1,104 @@
 # 주우성 202230236
 
+## 5월 22일(12주차)
+### 모듈과 패키지 개념, 자바 패키지 활용
+StringBuffer 클래스
+* 가변 스트링을 다루는 클래스
+* StringBuffer 객체 생성
+``` java
+StringBuffer sb = new StringBuffer("java"); //Java를 가진 StringButter 객체
+```
+* String 클래스와 달리 문자열 변경 가능
+  - 가변 크기의 버퍼를 가지고 있어 문자열 수정 가능
+  - 문자열의 수정이 많은 작업에 적합
+* 스트링 조작 사례
+``` java
+StringBuffer sb = new StringBuffer("This");
+
+sb.append(" is pencil"); // sb = "This is pencil"
+sb.insert(7, " my"); // sb = "this is my pencil"
+sb.replace(8, 10, "your"); // sb = "This is your pencil"
+System.out.println(sb); //"This is your pencil" 출력
+```
+
+StringTokenizer 클래스
+* 구분 문자를 기준으로 문자열을 분리하는 클래스
+  - 구분 문자(delimiter): 문자열을 구분할 때 사용되는 문자
+  - 토큰(token): 구분 문자로 분리된 문자열
+``` java
+int count = st.countTokens(); // 토큰 개수 알아내기.
+String token  = st.nextToken(); // 토큰을 하나씩 얻어내기
+```
+
+StringTokenizer를 이용한 문자열 분리
+``` java
+import java.util.StringTokenizer;
+public class ex6_7 {
+    public static void main(String[] args) {
+        String query = "name=kitae&addr=seoul&age=21";
+        StringTokenizer st = new StringTokenizer(query, "&");
+
+        int n =st.countTokens(); // 분리된 토큰 개수
+        System.out.println("토큰 개수 = " + n);
+        while(st.hasMoreTokens()) { // for(int i=0; i<n; i++)와 동일
+            String token = st.nextToken(); // 토큰 얻기
+            System.out.println(token); // 토큰 출력
+        }
+    }
+}
+결과: 토큰 개수 = 3
+name=kitae
+addr=seoul
+age=21 
+```
+
+Math 클래스
+* 기본 산술 연산 메소드를 제공하는 클래스
+* 모든 메소드는 static으로 선언
+  - 클래스 이름으로 호출 가능
+* Math.randon() 메소드로 난수 발생
+  - random()은 0보다 크거나 같고 1.0보다 작은 실수 난수 발생
+  - 1에서 100까지의 랜덤 정수 10개를 발생시키는 코드 사례
+``` java
+for(int x=0; x<10; x++){
+  int n = (int)(Math.random()*100 + 1); // 1~100까지의 랜덤 정수 발생
+  System.out.println(n);
+}
+```
+
+* java.util.Random 클래스를 이용하여 난수 발생 가능
+``` java
+Random r = new Random();
+int n = r.nextInt(); // 음수, 양수, 0 포함, 자바의 정수 범위 난수 발생
+int m = r.nextInt(100); // 0에서 99 사이(0과 99포함)의 정수 난수 발생
+```
+
+Math 클래스 활용
+``` java
+public class ex6_8 {
+    public static void main(String[] args) {
+        System.out.println(Math.abs(-3.14)); // 절댓값 구하기
+        System.out.println(Math.sqrt(9.0)); // 제곱근
+        System.out.println(Math.exp(2)); // e의 2승
+        System.out.println(Math.round(3.14)); // 반올림
+
+        // [1, 25] 사이의 정수형 난수 5개 발생
+        System.out.print("이번주 행운의 번호는 ");
+        for(int i=0; i<5; i++)
+            System.out.print((int)(Math.random()*45 + 1) + " "); // 난수 발생
+    }
+}
+결과: 3.14
+3.0
+7.38905609893065
+3
+이번주 행운의 번호는 27 21 17 37 41 
+```
+
+
+### 컬렉션과 제네릭
+컬렉션 
+
 
 ## 5월 15일(11주차)
 ### 모듈과 패키지 개념, 자바 패키지 활용
