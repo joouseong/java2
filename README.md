@@ -1,5 +1,28 @@
 # 주우성 202230236
 
+## 5월 29일(13주차)
+### 자바 GUI 스윙 기초
+
+컨테이너와 컴포넌트
+* 컨테이너
+  - 다른 컴포넌트를 포함할 수 있는 GUI 컴포넌트 : java.awt.Container를 상속받음
+  - 다른 컨테이너에 포함될 수 있음
+  - AWT 컨테이너 : Panel, Frame, Applet, Dialog, Window
+  - Swing 컨테이너 : JPanel, JFrame, JApplet, JDialog, JWindow
+
+* 컴포넌트
+  - 컨테이너에 포함되어야 화면에 출력될 수 있는 GUI 객체
+  - 다른 컴포넌트를 포함할 수 없는 순수 컴포넌트
+  - 모든 GUI 컴포넌트가 상속받는 클래스 : java.awt.Component
+  - 스윙 컴포넌트가 상속받는 클래스 : Javax.swing.Jconponent
+
+* 최상위 컨테이너
+  - 다른 컨테이너에 포함되지 않고도 화면에 출력되며, 독립적으로 존재 가능한 컨테이너
+  - 스스로 화면에 자신을 출력하는 컨테이너 : JFrame, JDialog, JApplet
+
+
+
+---
 ## 5월 22일(12주차)
 ### 모듈과 패키지 개념, 자바 패키지 활용
 StringBuffer 클래스
