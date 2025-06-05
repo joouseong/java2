@@ -1,5 +1,208 @@
 # 주우성 202230236
+## 6월 5일(14주차)
+### 자바의 이벤트 처리
+독립 클래스로 Action 이벤트 리스너 만들기
+``` java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
+public class ex9_1 extends JFrame{
+    public ex9_1() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        btn.addActionListener(new MyActionListener()); //Action 이벤트 리스너 달기
+        c.add(btn);
+
+        setSize(250,120);
+        setVisible(true);
+    }
+    public static void main(String [] args){
+        new ex9_1();
+    }
+}
+
+//독립된 클래스로 이벤트 리스너를 작성한다
+class MyActionListener implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        JButton b = (JButton)e.getSource(); // 이벤트 소스 버튼 알아내기
+        if(b.getText().equals("Action")) // 버튼의 문자일여 "Action"인지 비교
+            b.setText("액션"); // 버튼의 문자열을 "액션"으로 변경
+        else
+            b.setText("Action"); // 버튼의 문자열을 "Action"으로 변경
+    }
+}
+```
+
+내부 클래스로 Action 이벤트 리스너 만들기
+``` java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class ex9_2 extends JFrame{
+    public ex9_2() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        btn.addActionListener(new MyActionListener());
+        c.add(btn);
+
+        setSize(200,120);
+        setVisible(true);
+    }
+
+    //내부 클래스로 Action 리스너를 작성한다.
+    private class MyActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton)e.getSource();
+            if(b.getText().equals("Action"))
+                b.setText("액션");
+            else
+                b.setText("Action");
+
+            ex9_2.this.setTitle(b.getText());
+        }
+    }
+    public static void main(String [] args) {
+        new ex9_2();
+    }
+}
+```
+
+익명 클래스로 이벤트 리스너 작성
+* 익명 클래스(anonymous class) : 이름 없는 클래스
+  - (클래스 선언 + 인스턴스 생성)을 한번에 달성
+  - 간단한 리스너의 경우 익명 클래스 사용 추천
+  - 메소드의 개수가 1, 2개인 리스너(ActionListener, ItemListener) 에 대해 주로 사용
+
+마우스 이벤트 리스너 작성 연습 - 마우스로 문자열 이동시키기
+``` java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class ex9_4 extends JFrame{
+    private JLabel la = new JLabel("Hello"); // "Hello" 문자열을 출력하기 위한 레이블
+
+    public ex9_4() {
+        setTitle("Mouse 이벤트 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.addMouseListener(new MyMouseListener()); // 컨텐트팸에 이벤트 리스너 달기
+
+        c.setLayout(null); // 컨텐트팬의 배치관리자 삭제
+        la.setSize(50,20); // 레이블의 크기 50x20 설정
+        la.setLocation(30, 30); // 레이블의 위치 (30, 30)으로 설정
+        c.add(la); // 레이블 삽입
+        
+        setSize(200, 200);
+        setVisible(true);
+    }
+
+    class MyMouseListener implements MouseListener {
+        public void mousePressed(MouseEvent e) {
+            int x = e.getX();
+            int y = e.getY();
+            la.setLocation(x, y);
+        }
+        public void mouseReleased(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {}
+    }
+
+    public static void main(String [] args) {
+        new ex9_4();
+    }
+}
+```
+
+어댑터 클래스
+* 이벤트 리스너 구현에 따른 부담
+  - 리스너의 추상 메소드를 모두 구현해야 하는 부담
+  - 예) 마우스 리스너에서 마우스가 눌러지는 경우(mousePressed())만 처리하고자 하는 경우에도 나머지 4 개의 메소드를 모두 구현해야 하는 부담
+* 어댑터 클래스(Adapter)
+  - 리스너의 모든 메소드를 단순 리턴하도록 만든 클래스(JDK에서 제공)
+* 추상 메소드가 하나뿐인 리스너는 어댑터 없음
+  - ActionAdapter, ItemAdapter 클래스는 존재하지 않음
+
+Key 이벤트와 포커스
+* 키 입력 시, 다음 세 경우 각각 Key 이벤트 발생
+  - 키를 누르는 순간
+  - 누른 키를 떼는 순간
+  - 누른 키를 떼는 순간(Unicode키의 경우에만)
+
+* 키 이벤트를 받을 수 있는 조건
+  - 모든 컴포넌트
+  - 현재 포커스(focus)를 가진 컴포넌트가 키 이벤트 독점
+
+* 포커스(focus)
+  - 컴포넌트나 응용프로그램이 키 이벤트를 독점하는 권한
+  - 컴포넌트에 포커스 설정 방법: 다음 2 라인 코드 필요
+  ``` java
+  component.setFocusable(true); //component가 포커스를 받을 수 있도록 설정
+  component.requestFocus(); // component에 포커스 강제 지정
+  ```
+
+* 자바 플랫폼마다 실행 환경의 초기화가 서로 다를 수 있기 때문에 다음 코드가 필요함 <br>
+component.setFocusable(true);
+
+KeyListener
+* 응용프로그램에서 KeyListener를 상속받아 키 리스너 구현
+
+유니코드(Unicode) 키
+* 유니코드 키의 특징
+  - 국제 산업 표준
+  - 전 세계의 문자를 컴퓨터에서 일관되게 표현하기 위한 코드 체계
+  - 문자들에 대해서만 키 코드 값 정의: A~Z, a~z, 0~9, !, @, & 등
+
+* 문자가 아닌 키 경우에는 표준화된 키 코드 값 없음
+  - Function 키, Home 키, UP 키, Delete 키, Control 키, Shift 키, Alt 키 등은 플랫폼에 따라 키 코드 값이 다를 수 있음
+ * 유니코드 키가 입력되는 경우
+  - keyPressed(), keyTyped(), keyReleased() 가 순서대로 호출
+* 유니코드 키가 아닌 경우
+  - keyPressed(), keyReleased() 만 호출됨
+
+가상 키와 입력된 키 판별
+* KeyEvent 객체
+  - 입력된 키 정보를 가진 이벤트 객체
+  - KeyEvent 객체의 메소드로 입력된 키 판별
+* KeyEvent 객체의 메소드로 입력된 키 판별
+  - char KeyEvent.getKeyChar()
+  - 키의 유니코드 문자 값 리턴
+  - Unicode 문자 키인 경우에만 의미 있음
+  - 입력된 키를 판별하기 위해 문자 값과 비교하면 됨
+  ``` java
+  public void keyPressed(KeyEvent e){
+    if(e.getKeyChar() == 'q')
+      Syste,.exit(0);
+  // q키를 누르면 프로그램 종료
+  }
+  ```
+
+* int KeyEvent.getKeyCode()
+  - 유니코드 키 포함
+  - 모든 키에 대한 정수형 키 코드 리턴
+  - 입력된 키를 판별하기 위해 가상키(Virtual Key) 값과 비교하여야 함
+  - 가상 키 값은 KeyEvent 클래스에 상수로 선언
+   ``` java
+  public void keyPressed(KeyEvent e){
+    if(e.getKeyCode() == KeyEvent.VK_F5)
+      Syste,.exit(0);
+  // F5키를 누르면 프로그램 종료
+  }
+  ```
+
+
+---
 ## 5월 29일(13주차)
 ### 자바 GUI 스윙 기초
 
