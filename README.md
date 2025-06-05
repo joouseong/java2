@@ -183,7 +183,7 @@ KeyListener
   ``` java
   public void keyPressed(KeyEvent e){
     if(e.getKeyChar() == 'q')
-      Syste,.exit(0);
+      System.exit(0);
   // q키를 누르면 프로그램 종료
   }
   ```
@@ -196,10 +196,57 @@ KeyListener
    ``` java
   public void keyPressed(KeyEvent e){
     if(e.getKeyCode() == KeyEvent.VK_F5)
-      Syste,.exit(0);
+      System.exit(0);
   // F5키를 누르면 프로그램 종료
   }
   ```
+
+가상 키(Virtual Key)
+* 가상 키는 KeyEvent 클래스에 상수로 선언
+
+Mouse 이벤트와 MouseListener, MouseMotionListener
+* Mouse 이벤트: 사용자의 마우스 조작에 따라 발생하는 이벤트
+  - mouseClicked(): 마우스가 눌러진 위치에서 그대로 떼어질 때 호출
+  - mouseReleased(): 마우스가 눌러진 위치에서 그대로 떼어지든 아니든 항상 호출
+  - mouseDragged(): 마우스가 드래그되는 동안 계속 여러번 호출
+* 마우스가 눌러진 위치에서 떼어지는 경우 메소드 호출 순서
+> mousePressed(),mouseReleased(),mouseClicked()
+
+* 마우스가 드래그될 때 호출되는 메소드 호출 순서
+> mousePressed(), mouseDragged(), mouseDragged()....mouseDragged(), mouseReleased()
+
+마우스 리스너 달기와 MouseEvent 객체 활용
+* 마우스 리스너 달기
+  - 마우스 리스너는 컴포는트에 다음과 같이 등록
+  ``` java
+  component.addMouseListener(myMouseListener);
+  ```
+  - 컴포넌트가 마우스 무브(mouseMoved())나 마우스 드래깅(mouseDragged())을 함께 처리하고자 하면, MouseMotion 리스너 따로 등록
+  ``` java
+  component.addMouseMotionListener(myMouseMotionListener);
+  ```
+
+* MouseEvent 객체 활용
+  - 마우스 포인터의 위치, 컴포넌트 내 상대 위치: int getX(), int getY()
+  ``` java
+  public void mousePressed(MouseEvent e) {
+    int x = e.getX(); // 마우스가 눌러진 x좌표
+    int y = e.getY(); // 마우스가 눌러진 y좌표
+  }
+  ```
+* 마우스 클릭 횟수: int getClickCount()
+``` java
+public voidClicked(MouseEvent e) {
+  if(e.getClickCount() == 2) {
+    ..... // 더블클릭 처리 루틴
+  }
+}
+```
+
+### 스윙 컴포넌트 활용
+
+
+
 
 
 ---
